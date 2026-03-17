@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kagisho Maribe — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --surface2: #1a1a1a;
+  --border: #242424;
+  --border-hover: #383838;
+  --green: #4ade80;
+  --green-dim: rgba(74,222,128,0.1);
+  --blue: #60a5fa;
+  --text: #e8e8e8;
+  --text-mid: #888;
+  --text-dim: #444;
+  --accent: #4ade80;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(13,13,13,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--green);
+  letter-spacing: 0.06em;
+}
+
+.nav-links { display: flex; gap: 32px; list-style: none; }
+
+.nav-links a {
+  font-size: 13px;
+  color: var(--text-mid);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 48px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 64px;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-label::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: var(--green);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.hero-role {
+  font-size: 15px;
+  color: var(--text-mid);
+  font-weight: 400;
+  margin-bottom: 28px;
+  letter-spacing: 0.01em;
+}
+
+.hero-bio {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+.hero-bio strong { color: var(--text); font-weight: 500; }
+
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 9px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  display: inline-block;
+  border: none;
+}
+
+.btn-primary { background: var(--green); color: #0a0a0a; }
+.btn-primary:hover { background: #6ee79e; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-mid);
+  border: 1px solid var(--border-hover);
+}
+.btn-outline:hover { border-color: #555; color: var(--text); }
+
+/* Terminal */
+.terminal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.term-bar {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.td-r { background: #ff5f57; }
+.td-y { background: #febc2e; }
+.td-g { background: #28c840; }
+
+.term-filename {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-left: 8px;
+}
+
+.term-body {
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.tp { color: var(--green); }
+.tc { color: var(--text-mid); }
+.tv { color: var(--blue); }
+.tk { color: #f472b6; }
+.tl { color: var(--text-dim); padding-left: 12px; display: block; }
+
+/* Sections */
+.page-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 48px;
+  border-top: 1px solid var(--border);
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 40px;
+}
+
+/* About */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.about-text p {
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.about-text p strong { color: var(--text); font-weight: 500; }
+
+.skills-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+
+.skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.skill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-mid);
+  letter-spacing: 0.03em;
+  transition: all 0.15s;
+}
+
+.skill:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+/* Projects */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  transition: border-color 0.15s, transform 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.proj-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.proj-icon {
+  width: 34px; height: 34px;
+  border-radius: 7px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.proj-type {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+}
+
+.proj-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.proj-desc {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--green-dim);
+  color: var(--green);
+  letter-spacing: 0.03em;
+}
+
+/* Highlights */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.hl-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  transition: border-color 0.15s;
+}
+
+.hl-card:hover { border-color: var(--border-hover); }
+
+.hl-icon { font-size: 18px; margin-bottom: 12px; display: block; }
+
+.hl-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.hl-desc { font-size: 13px; color: var(--text-mid); line-height: 1.65; }
+
+/* Contact */
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.contact-text {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(74,222,128,0.07);
+  border: 1px solid rgba(74,222,128,0.2);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--green);
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.contact-links { display: flex; flex-direction: column; gap: 10px; }
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-mid);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.contact-link:hover { border-color: var(--border-hover); color: var(--text); }
+
+.contact-link-icon {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.contact-link-name { font-weight: 500; color: var(--text); font-size: 13px; }
+.contact-link-sub {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-dim);
+  margin-top: 1px;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-name { font-size: 13px; color: var(--text-dim); }
+.footer-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* Fade-in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  #hero { padding: 100px 24px 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+  .page-section { padding: 60px 24px; }
+  .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 36px; }
+  .highlights-grid { grid-template-columns: 1fr 1fr; }
+  footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 560px) {
+  .highlights-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">km.portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#highlights">Focus</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Available for opportunities</div>
+      <h1>Kagisho<br>Maribe</h1>
+      <p class="hero-role">Computer Science Student &nbsp;·&nbsp; Software Developer &nbsp;·&nbsp; AI &amp; Data Builder</p>
+      <p class="hero-bio">
+        Building at the intersection of <strong>AI, data, and software</strong> — from intelligent chatbots 
+        and analytics dashboards to full-stack web applications. 
+        Driven by a curiosity for how code can solve real problems at scale.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        <a href="https://github.com/Kagisho10" target="_blank" class="btn btn-outline">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="term-dot td-r"></div>
+        <div class="term-dot td-y"></div>
+        <div class="term-dot td-g"></div>
+        <span class="term-filename">profile.json</span>
+      </div>
+      <div class="term-body">
+        <div><span class="tp">~</span> <span class="tc">cat profile.json</span></div>
+        <span class="tl">{</span>
+        <span class="tl">&nbsp;&nbsp;<span class="tk">"name"</span>: <span class="tv">"Kagisho Maribe"</span>,</span>
+        <span class="tl">&nbsp;&nbsp;<span class="tk">"role"</span>: <span class="tv">"CS Student + Dev"</span>,</span>
+        <span class="tl">&nbsp;&nbsp;<span class="tk">"focus"</span>: <span class="tv">"AI &amp; Data"</span>,</span>
+        <span class="tl">&nbsp;&nbsp;<span class="tk">"stack"</span>: [<span class="tv">"Python"</span>, <span class="tv">"Django"</span>, <span class="tv">"FastAPI"</span>],</span>
+        <span class="tl">&nbsp;&nbsp;<span class="tk">"location"</span>: <span class="tv">"South Africa 🇿🇦"</span>,</span>
+        <span class="tl">&nbsp;&nbsp;<span class="tk">"open_to_work"</span>: <span class="tv">true</span></span>
+        <span class="tl">}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="page-section">
+  <div class="section-label">About</div>
+  <h2>Background</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a Computer Science student with a hands-on approach to building software. 
+        From <strong>AI-powered tutoring systems</strong> to production-ready REST APIs, 
+        I focus on shipping things that actually work.
+      </p>
+      <p>
+        My work spans <strong>data analytics</strong>, <strong>intelligent chatbots</strong>, 
+        student support systems for teaching and learning centres, and full-stack web development. 
+        I'm particularly interested in how AI can be applied meaningfully in educational and business contexts.
+      </p>
+      <p>
+        I approach problems with an <strong>entrepreneurial mindset</strong> — always thinking beyond the feature 
+        to the value it creates. Outside of code, music keeps the creative side alive.
+      </p>
+    </div>
+    <div>
+      <div class="skills-label">Technologies</div>
+      <div class="skills-wrap">
+        <span class="skill">Python</span>
+        <span class="skill">Django</span>
+        <span class="skill">FastAPI</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">REST APIs</span>
+        <span class="skill">Claude AI</span>
+        <span class="skill">SQL</span>
+        <span class="skill">Data Analytics</span>
+        <span class="skill">Git</span>
+        <span class="skill">Swagger</span>
+        <span class="skill">HTML / CSS</span>
+        <span class="skill">Prompt Engineering</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="page-section">
+  <div class="section-label">Projects</div>
+  <h2>Selected Work</h2>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <div class="proj-top">
+        <div class="proj-icon">🤖</div>
+        <span class="proj-type">AI · Education</span>
+      </div>
+      <div class="proj-name">AI Tutor System</div>
+      <p class="proj-desc">Intelligent tutoring assistant built with Python and Claude AI — delivers contextual, adaptive explanations to students using LLM integration.</p>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">Claude API</span><span class="tag">EdTech</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="proj-top">
+        <div class="proj-icon">🗃️</div>
+        <span class="proj-type">Backend · API</span>
+      </div>
+      <div class="proj-name">Django REST API</div>
+      <p class="proj-desc">Full CRUD REST API using FastAPI and Swagger. Clean endpoint structure for user management — documented and production-structured.</p>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Swagger</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="proj-top">
+        <div class="proj-icon">🧠</div>
+        <span class="proj-type">AI · Chatbot</span>
+      </div>
+      <div class="proj-name">Claude.py Integration</div>
+      <p class="proj-desc">Python project exploring the Anthropic API — chatbot interactions, prompt engineering workflows, and AI-driven automation patterns.</p>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">Anthropic</span><span class="tag">LLM</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="proj-top">
+        <div class="proj-icon">📊</div>
+        <span class="proj-type">Data · Analytics</span>
+      </div>
+      <div class="proj-name">Analytics Dashboard</div>
+      <p class="proj-desc">Data visualization and analytics pipeline built to support educational decision-making — from raw data to actionable visual insights.</p>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Data Viz</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="proj-top">
+        <div class="proj-icon">🎓</div>
+        <span class="proj-type">CTL · EdTech</span>
+      </div>
+      <div class="proj-name">Student Support Platform</div>
+      <p class="proj-desc">Systems for teaching and learning centre environments — student tracking, support workflows, and data-driven intervention tooling.</p>
+      <div class="proj-tags">
+        <span class="tag">EdTech</span><span class="tag">CTL</span><span class="tag">Data</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="proj-top">
+        <div class="proj-icon">🌐</div>
+        <span class="proj-type">Web · Full-stack</span>
+      </div>
+      <div class="proj-name">Full-Stack Web Projects</div>
+      <p class="proj-desc">Web applications combining Django backends, REST APIs, and responsive frontends. Emphasis on clean architecture and deployable outputs.</p>
+      <div class="proj-tags">
+        <span class="tag">Django</span><span class="tag">JavaScript</span><span class="tag">REST</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 24px;">
+    <a href="https://github.com/Kagisho10" target="_blank" class="btn btn-outline">View all repositories on GitHub ↗</a>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="highlights" class="page-section">
+  <div class="section-label">Focus Areas</div>
+  <h2>What I Work On</h2>
+  <div class="highlights-grid">
+    <div class="hl-card fade-in">
+      <span class="hl-icon">🤖</span>
+      <div class="hl-title">AI &amp; Chatbots</div>
+      <p class="hl-desc">Building LLM-powered tools — prompt engineering, API integration, and intelligent assistants that do real work.</p>
+    </div>
+    <div class="hl-card fade-in">
+      <span class="hl-icon">📈</span>
+      <div class="hl-title">Data Analytics</div>
+      <p class="hl-desc">Turning data into decisions — pipelines, dashboards, and visualizations that make information useful.</p>
+    </div>
+    <div class="hl-card fade-in">
+      <span class="hl-icon">🎓</span>
+      <div class="hl-title">CTL &amp; Student Support</div>
+      <p class="hl-desc">Technology for teaching and learning — systems that track, support, and improve student outcomes.</p>
+    </div>
+    <div class="hl-card fade-in">
+      <span class="hl-icon">🌐</span>
+      <div class="hl-title">Web Development</div>
+      <p class="hl-desc">Full-stack development with clean architecture — REST APIs, Django backends, and responsive interfaces.</p>
+    </div>
+    <div class="hl-card fade-in">
+      <span class="hl-icon">💡</span>
+      <div class="hl-title">Entrepreneurial Thinking</div>
+      <p class="hl-desc">Code as a tool for value creation. I think in products — who benefits, how it scales, what problem it solves.</p>
+    </div>
+    <div class="hl-card fade-in">
+      <span class="hl-icon">🎵</span>
+      <div class="hl-title">Music</div>
+      <p class="hl-desc">Creativity doesn't stop at the keyboard — music is the other side of how I think and express ideas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="page-section">
+  <div class="section-label">Contact</div>
+  <h2>Get in Touch</h2>
+  <div class="contact-inner">
+    <div>
+      <p class="contact-text">
+        Open to project collaborations, internships, and conversations about interesting problems. 
+        If you're building something in AI, data, or EdTech — I'd like to hear about it.
+      </p>
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        Open to opportunities
+      </div>
+    </div>
+    <div class="contact-links">
+      <a href="https://github.com/Kagisho10" target="_blank" class="contact-link">
+        <div class="contact-link-icon">⚡</div>
+        <div>
+          <div class="contact-link-name">GitHub</div>
+          <div class="contact-link-sub">github.com/Kagisho10</div>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/kagisho-maribe-89bab2323/" target="_blank" class="contact-link">
+        <div class="contact-link-icon">🔗</div>
+        <div>
+          <div class="contact-link-name">LinkedIn</div>
+          <div class="contact-link-sub">kagisho-maribe-89bab2323</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Kagisho Maribe · 2025</span>
+  <span class="footer-note">South Africa 🇿🇦 · CS Student · Builder</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
