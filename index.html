@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kagisho Maribe — Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kagisho Maribe — Portfolio &amp; Timetable</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-:root {
+/* ============================================================
+   GLOBAL RESET + PAGE SWITCHER (shared by both pages)
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+
+.page-switcher{
+  position:fixed; top:0; left:0; right:0; height:46px;
+  background:#0a0a0a; border-bottom:1px solid #242424; z-index:1000;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:'JetBrains Mono', monospace;
+}
+.switch-btn{
+  background:transparent; border:1px solid #333; color:#888;
+  font-family:inherit; font-size:12px; padding:7px 16px; border-radius:6px;
+  cursor:pointer; letter-spacing:.05em; transition:.15s;
+}
+.switch-btn:hover{ color:#eee; border-color:#555; }
+.switch-btn.active{ background:#4ade80; color:#0a0a0a; border-color:#4ade80; font-weight:600; }
+
+.page{ display:none; }
+.page.active{ display:block; }
+
+/* ============================================================
+   PAGE 1 — CV / PORTFOLIO   (namespaced under #page-cv)
+   ============================================================ */
+#page-cv {
   --bg: #0d0d0d;
   --surface: #141414;
   --surface2: #1a1a1a;
@@ -19,512 +46,269 @@
   --text-mid: #888;
   --text-dim: #444;
   --accent: #4ade80;
-}
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Space Grotesk', sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  overflow-x: hidden;
+  padding-top: 46px;
 }
 
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 48px;
-  background: rgba(13,13,13,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  z-index: 100;
+#page-cv nav {
+  position: fixed; top: 46px; left: 0; right: 0; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; background: rgba(13,13,13,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border); z-index: 100;
+}
+#page-cv .nav-logo{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--green); letter-spacing:0.06em; }
+#page-cv .nav-links{ display:flex; gap:32px; list-style:none; }
+#page-cv .nav-links a{ font-size:13px; color:var(--text-mid); text-decoration:none; letter-spacing:0.02em; transition:color 0.15s; }
+#page-cv .nav-links a:hover{ color:var(--text); }
+
+#page-cv #hero{ min-height:100vh; display:flex; align-items:center; padding:100px 48px 80px; max-width:1100px; margin:0 auto; }
+#page-cv .hero-inner{ display:grid; grid-template-columns:1fr 400px; gap:64px; align-items:center; width:100%; }
+#page-cv .hero-label{ font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.15em; color:var(--green); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+#page-cv .hero-label::before{ content:''; width:20px; height:1px; background:var(--green); display:inline-block; flex-shrink:0; }
+#page-cv h1{ font-size:clamp(2.8rem, 5vw, 4rem); font-weight:600; line-height:1.05; letter-spacing:-0.025em; color:var(--text); margin-bottom:10px; }
+#page-cv .hero-role{ font-size:15px; color:var(--text-mid); font-weight:400; margin-bottom:28px; letter-spacing:0.01em; }
+#page-cv .hero-bio{ font-size:15px; color:var(--text-mid); line-height:1.8; max-width:480px; margin-bottom:36px; }
+#page-cv .hero-bio strong{ color:var(--text); font-weight:500; }
+#page-cv .hero-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+#page-cv .btn{ font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; letter-spacing:0.03em; padding:9px 20px; border-radius:6px; cursor:pointer; text-decoration:none; transition:all 0.15s; display:inline-block; border:none; }
+#page-cv .btn-primary{ background:var(--green); color:#0a0a0a; }
+#page-cv .btn-primary:hover{ background:#6ee79e; }
+#page-cv .btn-outline{ background:transparent; color:var(--text-mid); border:1px solid var(--border-hover); }
+#page-cv .btn-outline:hover{ border-color:#555; color:var(--text); }
+
+#page-cv .terminal{ background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+#page-cv .term-bar{ background:var(--surface2); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; gap:6px; }
+#page-cv .term-dot{ width:10px; height:10px; border-radius:50%; }
+#page-cv .td-r{ background:#ff5f57; }
+#page-cv .td-y{ background:#febc2e; }
+#page-cv .td-g{ background:#28c840; }
+#page-cv .term-filename{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-dim); margin-left:8px; }
+#page-cv .term-body{ padding:20px; font-family:'JetBrains Mono', monospace; font-size:12px; line-height:1.9; }
+#page-cv .tp{ color:var(--green); }
+#page-cv .tc{ color:var(--text-mid); }
+#page-cv .tv{ color:var(--blue); }
+#page-cv .tk{ color:#f472b6; }
+#page-cv .tl{ color:var(--text-dim); padding-left:12px; display:block; }
+
+#page-cv .page-section{ max-width:1100px; margin:0 auto; padding:80px 48px; border-top:1px solid var(--border); }
+#page-cv .section-label{ font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.15em; color:var(--green); text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+#page-cv .section-label::before{ content:''; width:16px; height:1px; background:var(--green); flex-shrink:0; }
+#page-cv h2{ font-size:clamp(1.7rem, 3vw, 2.2rem); font-weight:600; letter-spacing:-0.02em; color:var(--text); margin-bottom:40px; }
+
+#page-cv .about-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:start; }
+#page-cv .about-text p{ color:var(--text-mid); line-height:1.8; margin-bottom:16px; font-size:15px; }
+#page-cv .about-text p strong{ color:var(--text); font-weight:500; }
+#page-cv .skills-label{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:14px; }
+#page-cv .skills-wrap{ display:flex; flex-wrap:wrap; gap:8px; }
+#page-cv .skill{ font-family:'JetBrains Mono', monospace; font-size:11px; padding:5px 12px; border-radius:5px; background:var(--surface); border:1px solid var(--border); color:var(--text-mid); letter-spacing:0.03em; transition:all 0.15s; }
+#page-cv .skill:hover{ border-color:var(--green); color:var(--green); background:var(--green-dim); }
+
+#page-cv .projects-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px; }
+#page-cv .project-card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:22px; transition:border-color 0.15s, transform 0.2s; }
+#page-cv .project-card:hover{ border-color:var(--border-hover); transform:translateY(-2px); }
+#page-cv .proj-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+#page-cv .proj-icon{ width:34px; height:34px; border-radius:7px; background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:15px; }
+#page-cv .proj-type{ font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase; padding:3px 8px; border-radius:4px; border:1px solid var(--border); background:var(--surface2); }
+#page-cv .proj-name{ font-size:14px; font-weight:600; color:var(--text); margin-bottom:8px; letter-spacing:-0.01em; }
+#page-cv .proj-desc{ font-size:13px; color:var(--text-mid); line-height:1.65; margin-bottom:16px; }
+#page-cv .proj-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+#page-cv .proj-links{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+#page-cv .proj-link{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--text-mid); text-decoration:none; padding:5px 10px; border:1px solid var(--border); border-radius:5px; background:var(--surface2); transition:all 0.15s; }
+#page-cv .proj-link:hover{ color:var(--green); border-color:rgba(74,222,128,0.45); background:var(--green-dim); }
+#page-cv .tag{ font-family:'JetBrains Mono', monospace; font-size:10px; padding:3px 8px; border-radius:4px; background:var(--green-dim); color:var(--green); letter-spacing:0.03em; }
+
+#page-cv .highlights-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+#page-cv .hl-card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:22px; transition:border-color 0.15s; }
+#page-cv .hl-card:hover{ border-color:var(--border-hover); }
+#page-cv .hl-icon{ font-size:18px; margin-bottom:12px; display:block; }
+#page-cv .hl-title{ font-size:14px; font-weight:600; color:var(--text); margin-bottom:8px; }
+#page-cv .hl-desc{ font-size:13px; color:var(--text-mid); line-height:1.65; }
+
+#page-cv .contact-inner{ display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+#page-cv .contact-text{ font-size:15px; color:var(--text-mid); line-height:1.8; margin-bottom:28px; }
+#page-cv .status-badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; background:rgba(74,222,128,0.07); border:1px solid rgba(74,222,128,0.2); border-radius:6px; font-size:13px; color:var(--green); }
+#page-cv .status-dot{ width:7px; height:7px; border-radius:50%; background:var(--green); flex-shrink:0; animation:cvPulse 2s ease-in-out infinite; }
+@keyframes cvPulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+#page-cv .contact-links{ display:flex; flex-direction:column; gap:10px; }
+#page-cv .contact-link{ display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:8px; text-decoration:none; color:var(--text-mid); font-size:13px; transition:all 0.15s; }
+#page-cv .contact-link:hover{ border-color:var(--border-hover); color:var(--text); }
+#page-cv .contact-link-icon{ width:32px; height:32px; border-radius:6px; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+#page-cv .contact-link-name{ font-weight:500; color:var(--text); font-size:13px; }
+#page-cv .contact-link-sub{ font-size:11px; font-family:'JetBrains Mono', monospace; color:var(--text-dim); margin-top:1px; }
+
+#page-cv footer{ border-top:1px solid var(--border); padding:28px 48px; max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+#page-cv .footer-name{ font-size:13px; color:var(--text-dim); }
+#page-cv .footer-note{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-dim); letter-spacing:0.04em; }
+
+#page-cv .fade-in{ opacity:0; transform:translateY(14px); transition:opacity 0.45s ease, transform 0.45s ease; }
+#page-cv .fade-in.visible{ opacity:1; transform:none; }
+
+@media (max-width:900px){
+  #page-cv nav{ padding:0 24px; }
+  #page-cv #hero{ padding:100px 24px 60px; }
+  #page-cv .hero-inner{ grid-template-columns:1fr; gap:36px; }
+  #page-cv .page-section{ padding:60px 24px; }
+  #page-cv .about-grid, #page-cv .contact-inner{ grid-template-columns:1fr; gap:36px; }
+  #page-cv .highlights-grid{ grid-template-columns:1fr 1fr; }
+  #page-cv footer{ padding:24px; flex-direction:column; gap:8px; text-align:center; }
+}
+@media (max-width:560px){
+  #page-cv .highlights-grid{ grid-template-columns:1fr; }
+  #page-cv .nav-links{ display:none; }
 }
 
-.nav-logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--green);
-  letter-spacing: 0.06em;
+/* ============================================================
+   PAGE 2 — TIMETABLE   (namespaced under #page-timetable)
+   ============================================================ */
+#page-timetable{
+  --bg:#0d1117; --bg2:#111826; --panel:#161b22; --border:#30363d;
+  --text:#c9d1d9; --dim:#6e7681; --green:#3fb950; --cyan:#58c4dc;
+  --blue:#58a6ff; --purple:#bc8cff; --yellow:#e3b341; --red:#f85149; --pink:#f778ba;
+
+  background:
+    radial-gradient(circle at 20% 0%, rgba(88,166,255,0.06), transparent 40%),
+    radial-gradient(circle at 80% 100%, rgba(63,185,80,0.05), transparent 40%),
+    var(--bg);
+  color:var(--text);
+  font-family:'JetBrains Mono','Fira Code',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:14px; line-height:1.5; padding:70px 18px 60px;
 }
-
-.nav-links { display: flex; gap: 32px; list-style: none; }
-
-.nav-links a {
-  font-size: 13px;
-  color: var(--text-mid);
-  text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: color 0.15s;
-}
-
-.nav-links a:hover { color: var(--text); }
-
-#hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 100px 48px 80px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 64px;
-  align-items: center;
-  width: 100%;
-}
-
-.hero-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: var(--green);
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hero-label::before {
-  content: '';
-  width: 20px; height: 1px;
-  background: var(--green);
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-h1 {
-  font-size: clamp(2.8rem, 5vw, 4rem);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  color: var(--text);
-  margin-bottom: 10px;
-}
-
-.hero-role {
-  font-size: 15px;
-  color: var(--text-mid);
-  font-weight: 400;
-  margin-bottom: 28px;
-  letter-spacing: 0.01em;
-}
-
-.hero-bio {
-  font-size: 15px;
-  color: var(--text-mid);
-  line-height: 1.8;
-  max-width: 480px;
-  margin-bottom: 36px;
-}
-
-.hero-bio strong { color: var(--text); font-weight: 500; }
-
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
-.btn {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  padding: 9px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.15s;
-  display: inline-block;
-  border: none;
-}
-
-.btn-primary { background: var(--green); color: #0a0a0a; }
-.btn-primary:hover { background: #6ee79e; }
-
-.btn-outline {
-  background: transparent;
-  color: var(--text-mid);
-  border: 1px solid var(--border-hover);
-}
-.btn-outline:hover { border-color: #555; color: var(--text); }
-
-.terminal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.term-bar {
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.term-dot { width: 10px; height: 10px; border-radius: 50%; }
-.td-r { background: #ff5f57; }
-.td-y { background: #febc2e; }
-.td-g { background: #28c840; }
-
-.term-filename {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-left: 8px;
-}
-
-.term-body {
-  padding: 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  line-height: 1.9;
-}
-
-.tp { color: var(--green); }
-.tc { color: var(--text-mid); }
-.tv { color: var(--blue); }
-.tk { color: #f472b6; }
-.tl { color: var(--text-dim); padding-left: 12px; display: block; }
-
-.page-section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 80px 48px;
-  border-top: 1px solid var(--border);
-}
-
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: var(--green);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.section-label::before {
-  content: '';
-  width: 16px; height: 1px;
-  background: var(--green);
-  flex-shrink: 0;
-}
-
-h2 {
-  font-size: clamp(1.7rem, 3vw, 2.2rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 40px;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 64px;
-  align-items: start;
-}
-
-.about-text p {
-  color: var(--text-mid);
-  line-height: 1.8;
-  margin-bottom: 16px;
-  font-size: 15px;
-}
-
-.about-text p strong { color: var(--text); font-weight: 500; }
-
-.skills-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 14px;
-}
-
-.skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.skill {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  padding: 5px 12px;
-  border-radius: 5px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text-mid);
-  letter-spacing: 0.03em;
-  transition: all 0.15s;
-}
-
-.skill:hover {
-  border-color: var(--green);
-  color: var(--green);
-  background: var(--green-dim);
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 14px;
-}
-
-.project-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 22px;
-  transition: border-color 0.15s, transform 0.2s;
-}
-
-.project-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
-}
-
-.proj-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 14px;
-}
-
-.proj-icon {
-  width: 34px; height: 34px;
-  border-radius: 7px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-}
-
-.proj-type {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-}
-
-.proj-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-
-.proj-desc {
-  font-size: 13px;
-  color: var(--text-mid);
-  line-height: 1.65;
-  margin-bottom: 16px;
-}
-
-.proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.proj-links {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-.proj-link {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--text-mid);
-  text-decoration: none;
-  padding: 5px 10px;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--surface2);
-  transition: all 0.15s;
-}
-
-.proj-link:hover {
-  color: var(--green);
-  border-color: rgba(74,222,128,0.45);
-  background: var(--green-dim);
-}
-
-.tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: var(--green-dim);
-  color: var(--green);
-  letter-spacing: 0.03em;
-}
-
-.highlights-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-.hl-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 22px;
-  transition: border-color 0.15s;
-}
-
-.hl-card:hover { border-color: var(--border-hover); }
-
-.hl-icon { font-size: 18px; margin-bottom: 12px; display: block; }
-
-.hl-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.hl-desc { font-size: 13px; color: var(--text-mid); line-height: 1.65; }
-
-.contact-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: start;
-}
-
-.contact-text {
-  font-size: 15px;
-  color: var(--text-mid);
-  line-height: 1.8;
-  margin-bottom: 28px;
-}
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: rgba(74,222,128,0.07);
-  border: 1px solid rgba(74,222,128,0.2);
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--green);
-}
-
-.status-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-
-.contact-links { display: flex; flex-direction: column; gap: 10px; }
-
-.contact-link {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--text-mid);
-  font-size: 13px;
-  transition: all 0.15s;
-}
-
-.contact-link:hover { border-color: var(--border-hover); color: var(--text); }
-
-.contact-link-icon {
-  width: 32px; height: 32px;
-  border-radius: 6px;
-  background: var(--surface2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-.contact-link-name { font-weight: 500; color: var(--text); font-size: 13px; }
-
-.contact-link-sub {
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--text-dim);
-  margin-top: 1px;
-}
-
-footer {
-  border-top: 1px solid var(--border);
-  padding: 28px 48px;
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-name { font-size: 13px; color: var(--text-dim); }
-
-.footer-note {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 0.04em;
-}
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
-
-.fade-in.visible { opacity: 1; transform: none; }
-
-@media (max-width: 900px) {
-  nav { padding: 0 24px; }
-  #hero { padding: 100px 24px 60px; }
-  .hero-inner { grid-template-columns: 1fr; gap: 36px; }
-  .page-section { padding: 60px 24px; }
-  .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 36px; }
-  .highlights-grid { grid-template-columns: 1fr 1fr; }
-  footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
-}
-
-@media (max-width: 560px) {
-  .highlights-grid { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
-}
+#page-timetable a{ color:var(--cyan); }
+#page-timetable .wrap{ max-width:1180px; margin:0 auto; }
+
+#page-timetable .topbar{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:22px; }
+#page-timetable .prompt{ color:var(--green); }
+#page-timetable .prompt .path{ color:var(--blue); }
+#page-timetable .prompt .cmd{ color:var(--text); }
+#page-timetable .cursor{ display:inline-block; width:8px; background:var(--green); animation:ttBlink 1s steps(1) infinite; margin-left:2px; }
+@keyframes ttBlink{ 50%{opacity:0;} }
+
+#page-timetable .clockbox{ text-align:right; font-size:12px; color:var(--dim); }
+#page-timetable #clock{ font-size:20px; color:var(--cyan); font-weight:600; letter-spacing:1px; }
+#page-timetable #dateline{ color:var(--yellow); }
+
+#page-timetable h1{ font-size:20px; color:var(--text); margin-bottom:4px; }
+#page-timetable .subtitle{ color:var(--dim); font-size:12px; margin-bottom:20px; }
+#page-timetable .comment{ color:var(--dim); }
+#page-timetable .kw{ color:var(--purple); }
+#page-timetable .str{ color:var(--yellow); }
+
+#page-timetable section{ margin-bottom:38px; }
+#page-timetable .sec-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+#page-timetable .sec-head .tag{ font-size:11px; color:var(--bg); background:var(--green); padding:2px 8px; border-radius:3px; font-weight:700; letter-spacing:.5px; }
+#page-timetable .sec-head h2{ font-size:15px; color:var(--text); font-weight:600; }
+#page-timetable .sec-head .hr{ flex:1; height:1px; background:var(--border); }
+
+#page-timetable .panel{ background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+#page-timetable .panel-head{ display:flex; align-items:center; gap:6px; padding:8px 12px; border-bottom:1px solid var(--border); background:#0c1017; }
+#page-timetable .dot{ width:10px; height:10px; border-radius:50%; }
+#page-timetable .dot.r{ background:#ff5f56; }
+#page-timetable .dot.y{ background:#ffbd2e; }
+#page-timetable .dot.g{ background:#27c93f; }
+#page-timetable .panel-title{ margin-left:8px; color:var(--dim); font-size:12px; }
+#page-timetable .panel-body{ padding:16px; }
+
+#page-timetable .top-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:18px; margin-bottom:38px; }
+@media(max-width:820px){ #page-timetable .top-grid{ grid-template-columns:1fr; } }
+
+#page-timetable .cal-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+#page-timetable .cal-head .month{ color:var(--blue); font-weight:700; font-size:14px; }
+#page-timetable table.cal{ width:100%; border-collapse:collapse; font-size:12px; }
+#page-timetable table.cal th{ color:var(--dim); font-weight:500; padding:6px 0; text-align:center; }
+#page-timetable table.cal td{ text-align:center; padding:7px 0; color:var(--text); border-radius:5px; }
+#page-timetable table.cal td.muted{ color:#3a4048; }
+#page-timetable table.cal td.today{ background:var(--green); color:#0d1117; font-weight:700; }
+#page-timetable table.cal td.markday{ position:relative; }
+#page-timetable table.cal td.markday::after{ content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--pink); }
+#page-timetable .cal-legend{ margin-top:10px; font-size:11px; color:var(--dim); }
+#page-timetable .cal-legend .sw{ display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--pink); margin-right:6px; }
+
+#page-timetable .status-line{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--border); font-size:12.5px; }
+#page-timetable .status-line:last-child{ border-bottom:none; }
+#page-timetable .status-line .k{ color:var(--dim); }
+#page-timetable .status-line .v{ color:var(--text); font-weight:600; }
+#page-timetable .badge{ padding:1px 7px; border-radius:10px; font-size:10px; font-weight:700; }
+#page-timetable .badge.up{ background:rgba(63,185,80,.15); color:var(--green); border:1px solid rgba(63,185,80,.4); }
+
+#page-timetable table.tt{ width:100%; border-collapse:collapse; font-size:12.5px; }
+#page-timetable table.tt th{ background:#0c1017; color:var(--dim); text-transform:uppercase; font-size:10.5px; letter-spacing:.5px; padding:10px 6px; border:1px solid var(--border); text-align:center; }
+#page-timetable table.tt td{ border:1px solid var(--border); padding:6px; vertical-align:top; text-align:center; height:52px; }
+#page-timetable table.tt td.time{ color:var(--dim); font-size:11px; white-space:nowrap; background:#0c1017; }
+#page-timetable .blk{ border-radius:5px; padding:5px 6px; font-size:11.5px; line-height:1.35; display:block; }
+#page-timetable .blk .code{ font-weight:700; display:block; }
+#page-timetable .blk .room{ color:rgba(255,255,255,.65); font-size:10px; display:block; }
+#page-timetable .bcis{ background:rgba(88,166,255,.16); border:1px solid rgba(88,166,255,.5); color:var(--blue); }
+#page-timetable .elrm{ background:rgba(188,140,255,.16); border:1px solid rgba(188,140,255,.5); color:var(--purple); }
+#page-timetable .eiop{ background:rgba(227,179,65,.16); border:1px solid rgba(227,179,65,.5); color:var(--yellow); }
+#page-timetable .ebcs{ background:rgba(63,185,80,.16); border:1px solid rgba(63,185,80,.5); color:var(--green); }
+
+#page-timetable .legend-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:14px; font-size:11.5px; }
+#page-timetable .legend-row span{ display:flex; align-items:center; gap:6px; }
+#page-timetable .legend-row i{ width:12px; height:12px; border-radius:3px; display:inline-block; }
+
+#page-timetable table.due{ width:100%; border-collapse:collapse; font-size:12.5px; }
+#page-timetable table.due th{ text-align:left; color:var(--dim); text-transform:uppercase; font-size:10.5px; padding:8px 10px; border-bottom:1px solid var(--border); }
+#page-timetable table.due td{ padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+#page-timetable table.due tr:last-child td{ border-bottom:none; }
+#page-timetable table.due tr:hover td{ background:#1c2129; }
+#page-timetable .mod-tag{ font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; white-space:nowrap; }
+#page-timetable .mod-tag.bcis{ background:rgba(88,166,255,.18); color:var(--blue); }
+#page-timetable .mod-tag.elrm{ background:rgba(188,140,255,.18); color:var(--purple); }
+#page-timetable .mod-tag.eiop{ background:rgba(227,179,65,.18); color:var(--yellow); }
+#page-timetable .mod-tag.ebcs{ background:rgba(63,185,80,.18); color:var(--green); }
+#page-timetable .mod-tag.all{ background:rgba(248,81,73,.18); color:var(--red); }
+#page-timetable .datecell{ color:var(--cyan); font-weight:600; white-space:nowrap; }
+#page-timetable .past{ opacity:.42; }
+#page-timetable .past .datecell{ color:var(--dim); }
+#page-timetable .flag{ color:var(--red); font-size:10.5px; }
+
+#page-timetable .tabs{ display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+#page-timetable .tab-btn{ font-family:inherit; font-size:12px; cursor:pointer; background:var(--panel); border:1px solid var(--border); color:var(--dim); padding:7px 14px; border-radius:6px 6px 0 0; transition:.15s; }
+#page-timetable .tab-btn.active{ color:var(--bg); font-weight:700; }
+#page-timetable .tab-btn[data-mod="bcis"].active{ background:var(--blue); }
+#page-timetable .tab-btn[data-mod="elrm"].active{ background:var(--purple); }
+#page-timetable .tab-btn[data-mod="eiop"].active{ background:var(--yellow); }
+#page-timetable .tab-btn[data-mod="ebcs"].active{ background:var(--green); }
+
+#page-timetable .tab-panel{ display:none; }
+#page-timetable .tab-panel.active{ display:block; }
+
+#page-timetable table.chp{ width:100%; border-collapse:collapse; font-size:12.5px; }
+#page-timetable table.chp th{ text-align:left; color:var(--dim); text-transform:uppercase; font-size:10.5px; padding:8px 10px; border-bottom:1px solid var(--border); }
+#page-timetable table.chp td{ padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+#page-timetable table.chp tr:last-child td{ border-bottom:none; }
+#page-timetable table.chp tr:hover td{ background:#1c2129; }
+#page-timetable .wk{ color:var(--dim); white-space:nowrap; font-size:11.5px; }
+#page-timetable .topic{ font-weight:700; }
+#page-timetable .topic.bcis{ color:var(--blue); }
+#page-timetable .topic.elrm{ color:var(--purple); }
+#page-timetable .topic.eiop{ color:var(--yellow); }
+#page-timetable .topic.ebcs{ color:var(--green); }
+#page-timetable .desc{ color:var(--text); opacity:.85; }
+#page-timetable .note{ color:var(--dim); font-size:10.5px; font-style:italic; }
+
+#page-timetable footer{ margin-top:50px; padding-top:16px; border-top:1px solid var(--border); color:var(--dim); font-size:11px; text-align:center; }
+#page-timetable footer .prompt{ color:var(--green); }
+
+#page-timetable ::selection{ background:var(--green); color:#0d1117; }
 </style>
 </head>
 <body>
+
+<div class="page-switcher">
+  <button class="switch-btn active" id="btn-cv" onclick="showPage('cv')">💼 CV / Portfolio</button>
+  <button class="switch-btn" id="btn-timetable" onclick="showPage('timetable')">📅 My Timetable</button>
+</div>
+
+<!-- ================= PAGE: CV / PORTFOLIO ================= -->
+<div id="page-cv" class="page active">
 
 <nav>
   <div class="nav-logo">km.portfolio</div>
@@ -823,15 +607,15 @@ footer {
         <div>
           <div class="contact-link-name">LinkedIn</div>
           <div class="contact-link-sub">kagisho-maribe-89bab2323</div>
-          </div>
-          </a>
-        
+        </div>
+      </a>
 
-      <a href="https://wa.me/0670857289" target="_blank">Chat with me on WhatsApp</a>
+      <a href="https://wa.me/0670857289" target="_blank" class="contact-link">
         <div class="contact-link-icon">💬</div>
         <div>
-          <div class="contact-link-name">Whatsapp</div>
-          <div class="contact-link-sub">kagisho-maribe</div>
+          <div class="contact-link-name">WhatsApp</div>
+          <div class="contact-link-sub">Chat with me</div>
+        </div>
       </a>
     </div>
   </div>
@@ -842,17 +626,391 @@ footer {
   <span class="footer-note">South Africa 🇿🇦 · CS Student · Builder</span>
 </footer>
 
+</div>
+<!-- ================= END PAGE: CV / PORTFOLIO ================= -->
+
+
+<!-- ================= PAGE: TIMETABLE ================= -->
+<div id="page-timetable" class="page">
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="prompt"><span class="kw">kay-gee</span>@<span class="path">ufs</span>:<span class="path">~/sem2-2026</span>$ <span class="cmd">./run_dashboard.sh</span><span class="cursor"></span></div>
+      <h1 style="margin-top:8px;">// Semester 2 · 2026 — Module Dashboard</h1>
+      <div class="subtitle">BCIS2624 · ELRM2624 · EIOP1524 · EBCS1524 &nbsp;|&nbsp; 13 Jul – 23 Oct 2026</div>
+    </div>
+    <div class="clockbox">
+      <div id="clock">--:--:--</div>
+      <div id="dateline">loading...</div>
+    </div>
+  </div>
+
+  <!-- ============ CLOCK + CALENDAR + STATUS ============ -->
+  <div class="top-grid">
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">calendar.js — August 2026</span></div>
+      <div class="panel-body">
+        <div class="cal-head">
+          <span class="month" id="calMonth">Loading…</span>
+          <span class="comment" id="calWeekNum">// week --</span>
+        </div>
+        <table class="cal" id="calTable"></table>
+        <div class="cal-legend"><span class="sw"></span>day with a scheduled test / due date this month</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">status --semester</span></div>
+      <div class="panel-body">
+        <div class="status-line"><span class="k">semester_start</span><span class="v">13 Jul 2026</span></div>
+        <div class="status-line"><span class="k">semester_end (classes)</span><span class="v">23 Oct 2026</span></div>
+        <div class="status-line"><span class="k">predicate_day</span><span class="v">23 Oct 2026</span></div>
+        <div class="status-line"><span class="k">exam_period</span><span class="v">26 Oct – 14 Nov 2026</span></div>
+        <div class="status-line"><span class="k">recess</span><span class="v">~28 Sep – 3 Oct 2026</span></div>
+        <div class="status-line"><span class="k">public_holidays</span><span class="v">10 Aug · 24 Aug/24 Sep · 25 Sep</span></div>
+        <div class="status-line"><span class="k">status</span><span class="v"><span class="badge up">● IN SEMESTER</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WEEKLY TIMETABLE ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">01</span><h2>weekly_timetable.grid</h2><span class="hr"></span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">recurring class schedule — Mon to Fri</span></div>
+      <div class="panel-body">
+        <table class="tt">
+          <thead>
+            <tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="time">08:10–10:00</td>
+              <td><span class="blk eiop"><span class="code">EIOP1524</span><span class="room">Kopanong Aud</span></span></td>
+              <td><span class="blk elrm"><span class="code">ELRM2624</span><span class="room">Lab. Rel.</span></span></td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="time">10:10–11:00</td>
+              <td>—</td>
+              <td><span class="blk ebcs"><span class="code">EBCS1524</span><span class="room">Stabilis 4</span></span></td>
+              <td>—</td>
+              <td><span class="blk ebcs"><span class="code">EBCS1524</span><span class="room">Stabilis 4</span></span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="time">11:10–13:00</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="blk eiop"><span class="code">EIOP1524</span><span class="room">Tutorial · Kopanong</span></span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="time">12:10–13:00</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="blk bcis"><span class="code">BCIS2624</span><span class="room">Lab B4</span></span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="time">13:10–14:00</td>
+              <td>—</td>
+              <td><span class="blk bcis"><span class="code">BCIS2624</span><span class="room">Rindl Hall</span></span></td>
+              <td><span class="blk elrm"><span class="code">ELRM2624</span><span class="room">Lab. Rel. venue</span></span></td>
+              <td><span class="blk ebcs"><span class="code">EBCS1524</span><span class="room">Stabilis 2</span></span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="time">14:10–16:00 / 17:00</td>
+              <td><span class="blk bcis"><span class="code">BCIS2624 Practical</span><span class="room">Lab B3 · Grp A</span></span></td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="blk ebcs"><span class="code">EBCS1524 Practical</span><span class="room">Stabilis 4</span></span></td>
+            </tr>
+            <tr>
+              <td class="time">17:10–18:00</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="blk elrm"><span class="code">ELRM2624</span><span class="room">Kopanong · Grp B</span></span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="time">17:10–20:00</td>
+              <td><span class="blk bcis"><span class="code">BCIS2624 Practical</span><span class="room">Lab B3 · Grp B</span></span></td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="legend-row">
+          <span><i class="bcis"></i>BCIS2624 — Systems Infrastructure &amp; Integration</span>
+          <span><i class="elrm"></i>ELRM2624 — Labour Relations Management</span>
+          <span><i class="eiop"></i>EIOP1524 — Intro to Individual Differences</span>
+          <span><i class="ebcs"></i>EBCS1524 — Business Calculations &amp; Statistics</span>
+        </div>
+        <p class="note" style="margin-top:10px;">// venues/times per module guides. Confirm on official UFS timetable / Blackboard — venues for EIOP tutorial groups & EBCS EXR6 test venue may shift.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DUE DATES ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">02</span><h2>due_dates.log &nbsp;<span class="comment">// sorted ASC</span></h2><span class="hr"></span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">all tests · assignments · quizzes · holidays</span></div>
+      <div class="panel-body" style="padding:0;">
+        <table class="due" id="dueTable">
+          <thead><tr><th style="width:110px;">Date</th><th style="width:70px;">Mod</th><th>Event</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td class="datecell">31 Jul</td><td><span class="mod-tag elrm">ELRM</span></td><td>Group enrolment deadline</td><td class="desc">Self-enrol into a group of 4 on Blackboard by 16:30 — no lecturer-assigned groups.</td></tr>
+            <tr><td class="datecell">10 Aug</td><td><span class="mod-tag all">ALL</span></td><td>Public holiday — Women's Day (observed)</td><td class="desc">No classes.</td></tr>
+            <tr><td class="datecell">11 Aug</td><td><span class="mod-tag elrm">ELRM</span></td><td>Test 1 — 08:10–10:00</td><td class="desc">Units 1 &amp; 2 (Intro to Labour Relations · Participants).</td></tr>
+            <tr><td class="datecell">12 Aug</td><td><span class="mod-tag eiop">EIOP</span></td><td>Semester Test 1 — 11:00–12:00</td><td class="desc">Units 1–3.</td></tr>
+            <tr><td class="datecell">14 Aug</td><td><span class="mod-tag ebcs">EBCS</span></td><td>Semester Test 1 — 14:00–16:00, EXR6</td><td class="desc">Chapter 7 + Chapter 8 (confidence intervals / estimation).</td></tr>
+            <tr><td class="datecell">17 Aug <span class="flag">⚠</span></td><td><span class="mod-tag bcis">BCIS</span></td><td>Schedule note: "Semester Test 1"</td><td class="desc">Guide's week-6 schedule lists this, but §9 Assessment table gives <b>Module Test 1 = 31 Aug</b>. Conflicting dates in the source guide — confirm with Mr Vieira / Blackboard.</td></tr>
+            <tr><td class="datecell">19 Aug</td><td><span class="mod-tag eiop">EIOP</span></td><td>Assignment 1 due</td><td class="desc">Individual online assignment submission.</td></tr>
+            <tr><td class="datecell">31 Aug</td><td><span class="mod-tag bcis">BCIS</span></td><td>Module Test 1</td><td class="desc">Chapters 1, 2, 5, 8, 9 &amp; 11. Lab B3, Grp A 15:10–17:00 / Grp B 17:10–19:00.</td></tr>
+            <tr><td class="datecell">8 Sep</td><td><span class="mod-tag elrm">ELRM</span></td><td>Test 2 — 08:10–10:00</td><td class="desc">Units 3 &amp; 4 (Legislative framework · Managing Labour Relations).</td></tr>
+            <tr><td class="datecell">9 Sep</td><td><span class="mod-tag eiop">EIOP</span></td><td>Semester Test 2 — 11:00–12:00</td><td class="desc">Units 4–7.</td></tr>
+            <tr><td class="datecell">12 Sep</td><td><span class="mod-tag ebcs">EBCS</span></td><td>Semester Test 2 — 09:00–11:00, EXR6</td><td class="desc">Chapter 9 + Chapter 10 (hypothesis testing).</td></tr>
+            <tr><td class="datecell">18 Sep</td><td><span class="mod-tag eiop">EIOP</span></td><td>Assignment 2 due</td><td class="desc">Individual online assignment submission.</td></tr>
+            <tr><td class="datecell">23 Sep</td><td><span class="mod-tag elrm">ELRM</span></td><td>Group Semester Assignment due — 16:30 sharp</td><td class="desc">Submitted on Blackboard only — no email submissions accepted.</td></tr>
+            <tr><td class="datecell">24 Sep</td><td><span class="mod-tag all">ALL</span></td><td>Public holiday — Heritage Day</td><td class="desc">No classes.</td></tr>
+            <tr><td class="datecell">25 Sep</td><td><span class="mod-tag bcis">BCIS</span></td><td>Senate Holiday</td><td class="desc">No classes (per BCIS schedule).</td></tr>
+            <tr><td class="datecell">28 Sep – 3 Oct</td><td><span class="mod-tag all">ALL</span></td><td>UFS recess</td><td class="desc">No classes across all modules (dates vary slightly by guide, ~28 Sep–2/3 Oct).</td></tr>
+            <tr><td class="datecell">6 Oct</td><td><span class="mod-tag elrm">ELRM</span></td><td>Test 3 — 08:10–10:00 (TBC)</td><td class="desc">Units 1–5, cumulative. Not a makeup test — best 2 of 3 test marks count.</td></tr>
+            <tr><td class="datecell">7 Oct</td><td><span class="mod-tag eiop">EIOP</span></td><td>Semester Test 3 — 11:00–12:00</td><td class="desc">Units 1–9, cumulative. Write 2 of 3 tests overall.</td></tr>
+            <tr><td class="datecell">12 Oct</td><td><span class="mod-tag bcis">BCIS</span></td><td>Module Test 2</td><td class="desc">All semester work, cumulative. Lab B3, Grp A/B time slots as per Test 1.</td></tr>
+            <tr><td class="datecell">17 Oct</td><td><span class="mod-tag ebcs">EBCS</span></td><td>Semester Test 3 — 09:00–12:00, EXR6</td><td class="desc">Chapters 7, 8, 9, 10, 11 &amp; 14 — full cumulative paper.</td></tr>
+            <tr><td class="datecell">19 Oct</td><td><span class="mod-tag bcis">BCIS</span></td><td>Aegrotat Test / Predicate week</td><td class="desc">Only for qualifying students — covers all semester work.</td></tr>
+            <tr><td class="datecell">23 Oct</td><td><span class="mod-tag all">ALL</span></td><td>Predicate Day</td><td class="desc">Final semester marks released across all four modules.</td></tr>
+            <tr><td class="datecell">26 Oct – 14 Nov</td><td><span class="mod-tag all">ALL</span></td><td>Examination period</td><td class="desc">Check the official UFS exam timetable for exact module dates/venues.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note" style="margin-top:8px;">// individual quizzes for EIOP, ELRM &amp; EBCS run on rolling windows (roughly one per unit/chapter block, open from the week the unit starts) — check each module's Blackboard for exact quiz close-dates rather than a single fixed day.</p>
+  </section>
+
+  <!-- ============ CHAPTER / TOPIC TRACKER ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">03</span><h2>chapter_tracker.map &nbsp;<span class="comment">// "what should I know, and when"</span></h2><span class="hr"></span></div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-mod="bcis">BCIS2624</button>
+      <button class="tab-btn" data-mod="elrm">ELRM2624</button>
+      <button class="tab-btn" data-mod="eiop">EIOP1524</button>
+      <button class="tab-btn" data-mod="ebcs">EBCS1524</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-body" style="padding:0;">
+
+        <!-- BCIS -->
+        <div class="tab-panel active" id="panel-bcis">
+          <table class="chp">
+            <thead><tr><th style="width:100px;">Week</th><th style="width:230px;">Chapter / Topic</th><th>One-line description</th></tr></thead>
+            <tbody>
+              <tr><td class="wk">Wk1 · 13–17 Jul</td><td class="topic bcis">Orientation</td><td class="desc">Module intro, expectations, no content yet.</td></tr>
+              <tr><td class="wk">Wk2 · 20–25 Jul</td><td class="topic bcis">Ch.1 — Relevant Computer Technology</td><td class="desc">Data representation &amp; manipulation basics (bits, number systems, encoding).</td></tr>
+              <tr><td class="wk">Wk3 · 27–31 Jul</td><td class="topic bcis">Ch.2 — Intro to Systems Architecture</td><td class="desc">Core hardware/software architecture concepts underlying enterprise systems.</td></tr>
+              <tr><td class="wk">Wk4 · 3–7 Aug</td><td class="topic bcis">Ch.5 — Data Storage Technology</td><td class="desc">Storage devices &amp; technologies, incl. cloud storage.</td></tr>
+              <tr><td class="wk">Wk5 · 10–14 Aug</td><td class="topic bcis">Ch.8 — Data &amp; Network Comm. Technology</td><td class="desc">How data moves: transmission media, comms tech for networking.</td></tr>
+              <tr><td class="wk">Wk6 · 17–21 Aug</td><td class="topic bcis">Ch.9 — Computer Networks</td><td class="desc">Network hardware building blocks, topologies, protocols.</td></tr>
+              <tr><td class="wk">Wk7 · 24–28 Aug</td><td class="topic bcis">Ch.11 — Operating Systems</td><td class="desc">OS fundamentals and how they manage system resources.</td></tr>
+              <tr><td class="wk">Wk8 · 31 Aug</td><td class="topic bcis">🔴 Module Test 1</td><td class="desc"><b>Covers Ch. 1, 2, 5, 8, 9 &amp; 11.</b></td></tr>
+              <tr><td class="wk">Wk9 · 7–11 Sep</td><td class="topic bcis">Ch.13 — Internet &amp; Distributed App Services</td><td class="desc">Structure of the internet and distributed software architecture.</td></tr>
+              <tr><td class="wk">Wk10 · 14–18 Sep</td><td class="topic bcis">Ch.14 — System Administration</td><td class="desc">IT systems administration &amp; control in large-scale infrastructure.</td></tr>
+              <tr><td class="wk">Wk11 · 21–24 Sep</td><td class="topic bcis">Ch.10 — Application Development</td><td class="desc">Software dev basics — short-answer questions only this year.</td></tr>
+              <tr><td class="wk">Wk12 · 5–9 Oct</td><td class="topic bcis">Virtualisation</td><td class="desc">Service &amp; hardware virtualisation principles — notes provided, no textbook chapter.</td></tr>
+              <tr><td class="wk">Wk13 · 12 Oct</td><td class="topic bcis">🔴 Module Test 2</td><td class="desc"><b>Cumulative — all semester work.</b></td></tr>
+              <tr><td class="wk">Wk14 · 19–23 Oct</td><td class="topic bcis">Aegrotat / Predicate week</td><td class="desc">Only for qualifying students; predicate released 23 Oct.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ELRM -->
+        <div class="tab-panel" id="panel-elrm">
+          <table class="chp">
+            <thead><tr><th style="width:100px;">Week</th><th style="width:260px;">Unit / Topic</th><th>One-line description</th></tr></thead>
+            <tbody>
+              <tr><td class="wk">Wk1 · 13–17 Jul</td><td class="topic elrm">Unit 1 — Intro to Labour Relations</td><td class="desc">Origins of the employment relationship through the 4 industrial revolutions; tripartite parties.</td></tr>
+              <tr><td class="wk">Wk2–3 · 20 Jul–31 Jul</td><td class="topic elrm">Unit 2 — Participants in SA's LR System</td><td class="desc">Trade unions &amp; employer organisations — types, goals, structures, registration.</td></tr>
+              <tr><td class="wk">Wk4 · 3–7 Aug</td><td class="topic elrm">Unit 3 — SA Labour Legislative Framework</td><td class="desc">The Constitution, NEDLAC, the employment contract, key labour legislation.</td></tr>
+              <tr><td class="wk">Wk5 · 11 Aug</td><td class="topic elrm">🔴 Test 1</td><td class="desc"><b>Units 1 &amp; 2.</b></td></tr>
+              <tr><td class="wk">Wk6 · 17–21 Aug</td><td class="topic elrm">Unit 3 (continued)</td><td class="desc">Legislative framework detail continues.</td></tr>
+              <tr><td class="wk">Wk7–8 · 24 Aug–4 Sep</td><td class="topic elrm">Unit 4 — Managing Labour Relations</td><td class="desc">Discipline, misconduct, dismissal — substantive &amp; procedural fairness.</td></tr>
+              <tr><td class="wk">Wk9 · 8 Sep</td><td class="topic elrm">🔴 Test 2</td><td class="desc"><b>Units 3 &amp; 4.</b></td></tr>
+              <tr><td class="wk">Wk9–10 · 8–18 Sep</td><td class="topic elrm">Unit 5 — Collective Bargaining &amp; Org. Rights</td><td class="desc">Bargaining power, structures, organisational rights, bargaining councils.</td></tr>
+              <tr><td class="wk">Wk11 · 21–23 Sep</td><td class="topic elrm">Unit 6 — Dispute Resolution &amp; Negotiation (start)</td><td class="desc">Negotiation types &amp; process; nature of labour disputes.</td></tr>
+              <tr><td class="wk">Wk13 · 6 Oct</td><td class="topic elrm">🔴 Test 3</td><td class="desc"><b>Units 1–5, cumulative</b> — not a re-write, best 2 of 3 counts.</td></tr>
+              <tr><td class="wk">Wk13–14 · 5–16 Oct</td><td class="topic elrm">Unit 6 (continued)</td><td class="desc">CCMA, Bargaining Councils, Labour Courts, dispute settlement methods.</td></tr>
+              <tr><td class="wk">Wk15 · 19–23 Oct</td><td class="topic elrm">Unit 7 — Industrial Action</td><td class="desc">Strikes, lockouts, protected vs. non-compliant industrial action.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- EIOP -->
+        <div class="tab-panel" id="panel-eiop">
+          <table class="chp">
+            <thead><tr><th style="width:100px;">Week</th><th style="width:260px;">Unit / Topic</th><th>One-line description</th></tr></thead>
+            <tbody>
+              <tr><td class="wk">Wk1 · 13–17 Jul</td><td class="topic eiop">Orientation</td><td class="desc">No tutorial this week.</td></tr>
+              <tr><td class="wk">Wk2 · 20–24 Jul</td><td class="topic eiop">Units 1 &amp; 2</td><td class="desc">Foundations of I-O Psychology as a discipline; key theoretical approaches (eco-systemic perspective).</td></tr>
+              <tr><td class="wk">Wk3 · 27–31 Jul</td><td class="topic eiop">Unit 3</td><td class="desc">Personality — conceptual model of individual differences, cross-cultural &amp; SA perspectives.</td></tr>
+              <tr><td class="wk">Wk3</td><td class="topic eiop">Online Quiz 1</td><td class="desc">Covers Units 1–3.</td></tr>
+              <tr><td class="wk">Wk4 · 3–7 Aug</td><td class="topic eiop">Unit 4</td><td class="desc">Sensation, perception &amp; attribution — how people interpret workplace situations.</td></tr>
+              <tr><td class="wk">Wk5 · 12 Aug</td><td class="topic eiop">🔴 Semester Test 1</td><td class="desc"><b>Units 1–3.</b></td></tr>
+              <tr><td class="wk">Wk6 · 17–21 Aug</td><td class="topic eiop">Unit 5</td><td class="desc">Cognition at work — memory, intelligence, decision-making, problem-solving.</td></tr>
+              <tr><td class="wk">Wk6 · 19 Aug</td><td class="topic eiop">Assignment 1 due</td><td class="desc">Individual online submission.</td></tr>
+              <tr><td class="wk">Wk7 · 24–28 Aug</td><td class="topic eiop">Unit 6</td><td class="desc">Motivation theories applied to diverse SA workplaces.</td></tr>
+              <tr><td class="wk">Wk7</td><td class="topic eiop">Online Quiz 2</td><td class="desc">Covers Units 4–6.</td></tr>
+              <tr><td class="wk">Wk8 · 31 Aug–4 Sep</td><td class="topic eiop">Unit 7</td><td class="desc">Work-related attitudes, values &amp; organisational culture (incl. decoloniality lens).</td></tr>
+              <tr><td class="wk">Wk9 · 9 Sep</td><td class="topic eiop">🔴 Semester Test 2</td><td class="desc"><b>Units 4–7.</b></td></tr>
+              <tr><td class="wk">Wk10 · 14–18 Sep</td><td class="topic eiop">Unit 8</td><td class="desc">The organisation as a complex system — traditional vs. contemporary designs.</td></tr>
+              <tr><td class="wk">Wk10 · 18 Sep</td><td class="topic eiop">Assignment 2 due</td><td class="desc">Individual online submission.</td></tr>
+              <tr><td class="wk">Wk11 · 21–25 Sep</td><td class="topic eiop">Unit 9</td><td class="desc">Group behaviour &amp; organisational culture — development models, structure, processes.</td></tr>
+              <tr><td class="wk">Wk11</td><td class="topic eiop">Online Quiz 3</td><td class="desc">Covers Units 7–9.</td></tr>
+              <tr><td class="wk">Wk12 · 7 Oct</td><td class="topic eiop">🔴 Semester Test 3</td><td class="desc"><b>Units 1–9, cumulative.</b> Write any 2 of the 3 tests overall.</td></tr>
+              <tr><td class="wk">Wk13 · 12–16 Oct</td><td class="topic eiop">Exam prep / revision</td><td class="desc">No new content — consolidate Units 1–9.</td></tr>
+            </tbody>
+          </table>
+          <p class="note" style="padding:0 16px 14px;">// Unit topic names for EIOP1524 are inferred from the module's numbered outcomes list (the guide's schedule only names them "Unit 1", "Unit 2" etc.) — cross-check exact unit titles against Blackboard/the study guide.</p>
+        </div>
+
+        <!-- EBCS -->
+        <div class="tab-panel" id="panel-ebcs">
+          <table class="chp">
+            <thead><tr><th style="width:100px;">Week</th><th style="width:230px;">Chapter / Topic</th><th>One-line description</th></tr></thead>
+            <tbody>
+              <tr><td class="wk">Wk1 · 13–17 Jul</td><td class="topic ebcs">Ch.7 (p.212–223)</td><td class="desc">Confidence intervals — estimating a population mean, large &amp; small samples.</td></tr>
+              <tr><td class="wk">Wk2 · 20–24 Jul</td><td class="topic ebcs">Ch.7 (p.224–244)</td><td class="desc">CIs continued — proportions, difference between two population means/proportions.</td></tr>
+              <tr><td class="wk">Wk3 · 27–31 Jul</td><td class="topic ebcs">Ch.8 (p.256–267)</td><td class="desc">Sample size determination for estimating means &amp; proportions.</td></tr>
+              <tr><td class="wk">Wk4 · 3–7 Aug</td><td class="topic ebcs">Ch.8 (p.268–286)</td><td class="desc">Hypothesis testing — one population mean/proportion, large &amp; small samples.</td></tr>
+              <tr><td class="wk">Wk5 · 14 Aug</td><td class="topic ebcs">🔴 Semester Test 1</td><td class="desc"><b>Ch.7 + Ch.8</b> — 14:00–16:00, EXR6.</td></tr>
+              <tr><td class="wk">Wk6 · 17–21 Aug</td><td class="topic ebcs">Ch.9 (p.299–316)</td><td class="desc">Hypothesis testing — difference between two means (independent samples).</td></tr>
+              <tr><td class="wk">Wk7 · 24–28 Aug</td><td class="topic ebcs">Ch.9 (p.318–330)</td><td class="desc">Difference between two means (dependent samples) &amp; two proportions.</td></tr>
+              <tr><td class="wk">Wk8 · 31 Aug–4 Sep</td><td class="topic ebcs">Ch.10 (p.349–367)</td><td class="desc">Further hypothesis testing / regression &amp; correlation groundwork.</td></tr>
+              <tr><td class="wk">Wk9 · 12 Sep</td><td class="topic ebcs">🔴 Semester Test 2</td><td class="desc"><b>Ch.9 + Ch.10</b> — 09:00–11:00, EXR6.</td></tr>
+              <tr><td class="wk">Wk10 · 14–18 Sep</td><td class="topic ebcs">Ch.11 (p.374–406)</td><td class="desc">Chi-square tests — goodness of fit, test of independence, test for normality.</td></tr>
+              <tr><td class="wk">Wk11 · 21–23 Sep</td><td class="topic ebcs">Ch.14 (p.491–506)</td><td class="desc">Non-parametric tests — sign test &amp; Wilcoxon signed-rank sum test.</td></tr>
+              <tr><td class="wk">Wk13 · 17 Oct</td><td class="topic ebcs">🔴 Semester Test 3</td><td class="desc"><b>Ch.7, 8, 9, 10, 11 &amp; 14 — full cumulative paper</b>, 09:00–12:00, EXR6.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="prompt">$</div>
+    <div style="margin-top:6px;">Built for personal use — data compiled from official 2026 module guides. Always double-check against Blackboard for the latest version. // EOF</div>
+  </footer>
+
+</div>
+</div>
+<!-- ================= END PAGE: TIMETABLE ================= -->
+
 <script>
-  const observer = new IntersectionObserver(entries => {
+  // ---------- page switcher ----------
+  function showPage(name){
+    document.getElementById('page-cv').classList.toggle('active', name === 'cv');
+    document.getElementById('page-timetable').classList.toggle('active', name === 'timetable');
+    document.getElementById('btn-cv').classList.toggle('active', name === 'cv');
+    document.getElementById('btn-timetable').classList.toggle('active', name === 'timetable');
+    window.scrollTo(0,0);
+  }
+
+  // ---------- portfolio fade-in on scroll ----------
+  const cvObserver = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
         setTimeout(() => e.target.classList.add('visible'), i * 80);
       }
     });
   }, { threshold: 0.1 });
+  document.querySelectorAll('#page-cv .fade-in').forEach(el => cvObserver.observe(el));
 
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  // ---------- timetable: live clock ----------
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function updateClock(){
+    const now = new Date();
+    const h = pad(now.getHours()), m = pad(now.getMinutes()), s = pad(now.getSeconds());
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('dateline').textContent =
+      `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ---------- timetable: calendar ----------
+  const markedDates = new Set([10,11,12,14,17,19,24,25,31]); // Aug 2026 highlights from due_dates log
+
+  function buildCalendar(){
+    const now = new Date();
+    const y = now.getFullYear(), m = now.getMonth();
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('calMonth').textContent = `${months[m]} ${y}`;
+
+    const d = new Date(Date.UTC(y, m, now.getDate()));
+    const dayNum = (d.getUTCDay() + 6) % 7;
+    d.setUTCDate(d.getUTCDate() - dayNum + 3);
+    const firstThursday = new Date(Date.UTC(d.getUTCFullYear(),0,4));
+    const weekNum = 1 + Math.round(((d - firstThursday) / 86400000 - 3 + ((firstThursday.getUTCDay()+6)%7)) / 7);
+    document.getElementById('calWeekNum').textContent = `// week ${weekNum}`;
+
+    const firstDay = new Date(y, m, 1).getDay();
+    const offset = (firstDay + 6) % 7;
+    const daysInMonth = new Date(y, m+1, 0).getDate();
+    const prevDays = new Date(y, m, 0).getDate();
+
+    let html = '<thead><tr><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody><tr>';
+    let cell = 0;
+
+    for(let i=0;i<offset;i++){
+      html += `<td class="muted">${prevDays - offset + i + 1}</td>`;
+      cell++;
+    }
+    for(let day=1; day<=daysInMonth; day++){
+      let cls = [];
+      if(day === now.getDate()) cls.push('today');
+      if(markedDates.has(day) && m === now.getMonth()) cls.push('markday');
+      html += `<td class="${cls.join(' ')}">${day}</td>`;
+      cell++;
+      if(cell % 7 === 0) html += '</tr><tr>';
+    }
+    const remainder = cell % 7;
+    if(remainder !== 0){
+      for(let i=1; i<=7-remainder; i++){
+        html += `<td class="muted">${i}</td>`;
+      }
+    }
+    html += '</tr></tbody>';
+    document.getElementById('calTable').innerHTML = html;
+  }
+  buildCalendar();
+
+  // ---------- timetable: chapter tabs ----------
+  document.querySelectorAll('#page-timetable .tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#page-timetable .tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('#page-timetable .tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.mod).classList.add('active');
+    });
+  });
 </script>
-
 </body>
 </html>
