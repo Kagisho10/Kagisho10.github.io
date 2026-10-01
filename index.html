@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 /* ============================================================
-   GLOBAL RESET + PAGE SWITCHER (shared by both pages)
+   GLOBAL RESET + PAGE SWITCHER (shared by all pages)
    ============================================================ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -18,15 +18,16 @@ body { overflow-x: hidden; }
   position:fixed; top:0; left:0; right:0; height:46px;
   background:#0a0a0a; border-bottom:1px solid #242424; z-index:1000;
   display:flex; align-items:center; justify-content:center; gap:10px;
-  font-family:'JetBrains Mono', monospace;
+  font-family:'JetBrains Mono', monospace; overflow-x:auto; padding:0 10px;
 }
 .switch-btn{
   background:transparent; border:1px solid #333; color:#888;
   font-family:inherit; font-size:12px; padding:7px 16px; border-radius:6px;
-  cursor:pointer; letter-spacing:.05em; transition:.15s;
+  cursor:pointer; letter-spacing:.05em; transition:.15s; white-space:nowrap;
 }
 .switch-btn:hover{ color:#eee; border-color:#555; }
 .switch-btn.active{ background:#4ade80; color:#0a0a0a; border-color:#4ade80; font-weight:600; }
+@media (max-width:560px){ .page-switcher{ justify-content:flex-start; } .switch-btn{ padding:7px 10px; font-size:11px; } }
 
 .page{ display:none; }
 .page.active{ display:block; }
@@ -301,7 +302,7 @@ body { overflow-x: hidden; }
 #page-timetable ::selection{ background:var(--green); color:#0d1117; }
 
 /* ============================================================
-   PASSWORD GATE (used by Timetable + Tasks pages)
+   PASSWORD GATE (used by Timetable + Tasks + Study pages)
    ============================================================ */
 .lock-gate{
   min-height:100vh; display:flex; align-items:center; justify-content:center;
@@ -392,6 +393,129 @@ body { overflow-x: hidden; }
 }
 #page-tasks .db-row button:hover{ border-color:var(--cyan); color:var(--cyan); }
 #page-tasks .db-note{ color:var(--dim); font-size:11px; margin-top:10px; line-height:1.6; }
+
+/* ============================================================
+   PAGE 4 — STUDY PLAN   (namespaced under #page-study)
+   ============================================================ */
+#page-study{
+  --bg:#0d1117; --panel:#161b22; --border:#30363d;
+  --text:#c9d1d9; --dim:#6e7681; --green:#3fb950; --cyan:#58c4dc;
+  --blue:#58a6ff; --purple:#bc8cff; --yellow:#e3b341; --red:#f85149;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(188,140,255,0.06), transparent 40%),
+    radial-gradient(circle at 10% 100%, rgba(227,179,65,0.05), transparent 40%),
+    var(--bg);
+  color:var(--text);
+  font-family:'JetBrains Mono','Fira Code',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:14px; line-height:1.5; padding:70px 18px 60px; min-height:100vh;
+}
+#page-study .wrap{ max-width:1180px; margin:0 auto; }
+#page-study .topbar{ border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:22px; }
+#page-study .prompt{ color:var(--green); }
+#page-study .prompt .path{ color:var(--blue); }
+#page-study .prompt .kw{ color:var(--purple); }
+#page-study .prompt .cmd{ color:var(--text); }
+#page-study .cursor{ display:inline-block; width:8px; background:var(--green); animation:ttBlink 1s steps(1) infinite; margin-left:2px; }
+#page-study h1{ font-size:20px; color:var(--text); margin:8px 0 4px; }
+#page-study .subtitle{ color:var(--dim); font-size:12px; }
+
+#page-study section{ margin-bottom:38px; }
+#page-study .sec-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+#page-study .sec-head .tag{ font-size:11px; color:var(--bg); background:var(--green); padding:2px 8px; border-radius:3px; font-weight:700; letter-spacing:.5px; }
+#page-study .sec-head h2{ font-size:15px; color:var(--text); font-weight:600; }
+#page-study .sec-head .hr{ flex:1; height:1px; background:var(--border); }
+#page-study .comment{ color:var(--dim); }
+
+#page-study .panel{ background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+#page-study .panel-head{ display:flex; align-items:center; gap:6px; padding:8px 12px; border-bottom:1px solid var(--border); background:#0c1017; }
+#page-study .dot{ width:10px; height:10px; border-radius:50%; }
+#page-study .dot.r{ background:#ff5f56; }
+#page-study .dot.y{ background:#ffbd2e; }
+#page-study .dot.g{ background:#27c93f; }
+#page-study .panel-title{ margin-left:8px; color:var(--dim); font-size:12px; }
+#page-study .panel-body{ padding:16px; }
+#page-study .scroll{ overflow-x:auto; }
+#page-study .note{ color:var(--dim); font-size:10.5px; font-style:italic; margin-top:8px; }
+
+/* today panel */
+#page-study .now-head{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+#page-study .now-date{ color:var(--yellow); font-weight:700; }
+#page-study .now-flag{ color:var(--red); font-size:12px; font-weight:700; }
+#page-study .now-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:700px){ #page-study .now-grid{ grid-template-columns:1fr; } }
+#page-study .now-card{ border:1px solid var(--border); border-radius:8px; padding:12px 14px; background:#0d1117; }
+#page-study .now-card.live{ border-color:var(--green); box-shadow:inset 0 0 0 1px var(--green); }
+#page-study .now-label{ color:var(--dim); font-size:11px; text-transform:uppercase; letter-spacing:.5px; display:flex; justify-content:space-between; }
+#page-study .live-badge{ color:var(--green); font-weight:700; }
+#page-study .now-focus{ margin-top:8px; font-size:13px; }
+
+/* weekly grid */
+#page-study table.sg{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:680px; }
+#page-study table.sg th{ background:#0c1017; color:var(--dim); text-transform:uppercase; font-size:10.5px; letter-spacing:.5px; padding:10px 8px; border-bottom:1px solid var(--border); text-align:left; }
+#page-study table.sg td{ padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:top; }
+#page-study table.sg tr:last-child td{ border-bottom:none; }
+#page-study table.sg tr.today td{ background:rgba(63,185,80,.07); }
+#page-study table.sg tr.today td:first-child{ box-shadow:inset 3px 0 0 var(--green); }
+#page-study .dayname{ font-weight:700; color:var(--text); }
+#page-study .slot{ display:inline-block; padding:3px 8px; border-radius:5px; margin:2px 4px 2px 0; font-size:11.5px; font-weight:600; white-space:nowrap; }
+#page-study .slot.am{ background:rgba(227,179,65,.14); border:1px solid rgba(227,179,65,.5); color:var(--yellow); }
+#page-study .slot.pm{ background:rgba(188,140,255,.14); border:1px solid rgba(188,140,255,.5); color:var(--purple); }
+#page-study .slot.off{ color:var(--dim); border:1px dashed var(--border); font-weight:400; }
+#page-study .why{ color:var(--dim); font-size:11px; }
+#page-study .tot{ color:var(--cyan); font-weight:700; white-space:nowrap; }
+#page-study .weektotal{ display:flex; justify-content:flex-end; gap:8px; padding:10px 12px; border-top:1px solid var(--border); font-size:12px; color:var(--dim); }
+#page-study .weektotal b{ color:var(--cyan); }
+
+/* module tags */
+#page-study .mt{ font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; margin-right:4px; white-space:nowrap; }
+#page-study .mt.bcis{ background:rgba(88,166,255,.18); color:var(--blue); }
+#page-study .mt.elrm{ background:rgba(188,140,255,.18); color:var(--purple); }
+#page-study .mt.eiop{ background:rgba(227,179,65,.18); color:var(--yellow); }
+#page-study .mt.ebcs{ background:rgba(63,185,80,.18); color:var(--green); }
+#page-study .mt.all{ background:rgba(248,81,73,.18); color:var(--red); }
+
+/* time budget */
+#page-study .bud{ padding:14px 16px; border-bottom:1px solid var(--border); }
+#page-study .bud:last-child{ border-bottom:none; }
+#page-study .bud-top{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:flex-start; }
+#page-study .bud-name{ font-weight:700; font-size:13px; }
+#page-study .bud-meta{ color:var(--dim); font-size:11.5px; margin-top:2px; }
+#page-study .bud-hours{ font-size:12.5px; color:var(--cyan); font-weight:700; white-space:nowrap; }
+#page-study .bar{ height:8px; background:#0d1117; border:1px solid var(--border); border-radius:5px; overflow:hidden; margin:9px 0 7px; }
+#page-study .bar i{ display:block; height:100%; background:var(--green); transition:width .25s; }
+#page-study .bud-foot{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center; }
+#page-study .pace{ font-size:11.5px; color:var(--text); }
+#page-study .pace.hot{ color:var(--red); }
+#page-study .pace.ok{ color:var(--green); }
+#page-study .pace.gone{ color:var(--dim); }
+#page-study .bud-btns{ display:flex; gap:6px; }
+#page-study .bud-btns button, #page-study .reset-btn{
+  background:#0d1117; border:1px solid var(--border); color:var(--text);
+  font-family:inherit; font-size:11px; padding:4px 9px; border-radius:6px; cursor:pointer;
+}
+#page-study .bud-btns button:hover{ border-color:var(--green); color:var(--green); }
+#page-study .reset-btn:hover{ border-color:var(--red); color:var(--red); }
+#page-study .bud.complete .bud-name{ color:var(--green); }
+#page-study .budget-sum{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; padding:10px 16px; border-top:1px solid var(--border); font-size:12px; color:var(--dim); }
+#page-study .budget-sum b{ color:var(--cyan); }
+
+/* october plan */
+#page-study table.op{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:760px; }
+#page-study table.op th{ text-align:left; color:var(--dim); text-transform:uppercase; font-size:10.5px; padding:8px 10px; border-bottom:1px solid var(--border); background:#0c1017; }
+#page-study table.op td{ padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+#page-study table.op tr:last-child td{ border-bottom:none; }
+#page-study table.op tr:hover td{ background:#1c2129; }
+#page-study table.op tr.test td{ background:rgba(248,81,73,.07); }
+#page-study table.op tr.today td{ background:rgba(63,185,80,.09); }
+#page-study table.op tr.today td:first-child{ box-shadow:inset 3px 0 0 var(--green); }
+#page-study table.op tr.past{ opacity:.42; }
+#page-study .opdate{ color:var(--cyan); font-weight:600; white-space:nowrap; }
+#page-study .opflag{ display:block; color:var(--red); font-size:10.5px; font-weight:700; margin-top:2px; }
+#page-study .optime{ display:block; color:var(--dim); font-size:10.5px; margin-bottom:3px; }
+#page-study .rest{ color:var(--dim); }
+
+#page-study footer{ margin-top:50px; padding-top:16px; border-top:1px solid var(--border); color:var(--dim); font-size:11px; text-align:center; }
+#page-study ::selection{ background:var(--green); color:#0d1117; }
 </style>
 </head>
 <body>
@@ -399,6 +523,7 @@ body { overflow-x: hidden; }
 <div class="page-switcher">
   <button class="switch-btn active" id="btn-cv" onclick="showPage('cv')">💼 CV / Portfolio</button>
   <button class="switch-btn" id="btn-timetable" onclick="showPage('timetable')">📅 My Timetable</button>
+  <button class="switch-btn" id="btn-study" onclick="showPage('study')">📚 Study Plan</button>
   <button class="switch-btn" id="btn-tasks" onclick="showPage('tasks')">✅ Tasks</button>
 </div>
 
@@ -1029,6 +1154,82 @@ body { overflow-x: hidden; }
 </div>
 <!-- ================= END PAGE: TIMETABLE ================= -->
 
+<!-- ================= PAGE: STUDY PLAN ================= -->
+<div id="page-study" class="page">
+
+<div class="lock-gate" id="study-lock">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <h3>Study plan is locked</h3>
+    <p>Enter the password to view it.</p>
+    <input type="password" id="study-pw" placeholder="Password" onkeydown="if(event.key==='Enter')unlockPage('study')">
+    <button onclick="unlockPage('study')">Unlock</button>
+    <div class="lock-error" id="study-pw-error"></div>
+  </div>
+</div>
+
+<div class="wrap" id="study-content" style="display:none;">
+
+  <div class="topbar">
+    <div class="prompt"><span class="kw">kay-gee</span>@<span class="path">ufs</span>:<span class="path">~/study</span>$ <span class="cmd">./study_plan.sh --month=oct</span><span class="cursor"></span></div>
+    <h1>// Study Plan · October 2026</h1>
+    <div class="subtitle">Morning block 07:00–10:00 · Night block 21:00–00:00 · class clashes moved to the nearest free gap</div>
+  </div>
+
+  <!-- ============ TODAY ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">00</span><h2>today.focus</h2><span class="hr"></span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">what to study right now</span></div>
+      <div class="panel-body" id="study-today"></div>
+    </div>
+  </section>
+
+  <!-- ============ WEEKLY STUDY GRID ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">01</span><h2>weekly_study.grid &nbsp;<span class="comment">// split around classes</span></h2><span class="hr"></span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">recurring study blocks — Mon to Sun</span></div>
+      <div class="scroll">
+        <table class="sg" id="study-grid"></table>
+      </div>
+      <div class="weektotal" id="study-weektotal"></div>
+    </div>
+    <p class="note">// edit the STUDY_WEEK array in the script to move a block. Totals update automatically.</p>
+  </section>
+
+  <!-- ============ TIME BUDGET ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">02</span><h2>time_budget.log &nbsp;<span class="comment">// how many hours each task needs</span></h2><span class="hr"></span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">log hours as you study — saved in this browser</span></div>
+      <div id="budget-list"></div>
+      <div class="budget-sum" id="budget-sum"></div>
+    </div>
+  </section>
+
+  <!-- ============ OCTOBER DAY-BY-DAY ============ -->
+  <section>
+    <div class="sec-head"><span class="tag">03</span><h2>october_plan.map &nbsp;<span class="comment">// day by day</span></h2><span class="hr"></span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="panel-title">morning + night focus · tests in red · today in green</span></div>
+      <div class="scroll">
+        <table class="op" id="oct-plan"></table>
+      </div>
+    </div>
+    <p class="note">// ELRM &amp; EIOP Test 3: if you already wrote Tests 1 &amp; 2, swap those slots for Stats Ch 11 / 14. Exam rows (26 Oct+) follow your exam timetable — next exam first.</p>
+  </section>
+
+  <footer>
+    <div class="prompt">$</div>
+    <div style="margin-top:6px;">50-min focus · 10-min break · gym stays in · sleep before cramming // EOF</div>
+  </footer>
+
+</div>
+<!-- /study-content -->
+</div>
+<!-- ================= END PAGE: STUDY PLAN ================= -->
+
 <!-- ================= PAGE: TASKS ================= -->
 <div id="page-tasks" class="page">
 
@@ -1092,13 +1293,12 @@ body { overflow-x: hidden; }
 
 <script>
   // ---------- page switcher ----------
+  const PAGES = ['cv','timetable','study','tasks'];
   function showPage(name){
-    document.getElementById('page-cv').classList.toggle('active', name === 'cv');
-    document.getElementById('page-timetable').classList.toggle('active', name === 'timetable');
-    document.getElementById('page-tasks').classList.toggle('active', name === 'tasks');
-    document.getElementById('btn-cv').classList.toggle('active', name === 'cv');
-    document.getElementById('btn-timetable').classList.toggle('active', name === 'timetable');
-    document.getElementById('btn-tasks').classList.toggle('active', name === 'tasks');
+    PAGES.forEach(p=>{
+      document.getElementById('page-' + p).classList.toggle('active', p === name);
+      document.getElementById('btn-' + p).classList.toggle('active', p === name);
+    });
     window.scrollTo(0,0);
   }
 
@@ -1107,23 +1307,26 @@ body { overflow-x: hidden; }
   // page source can read this password. It just keeps casual visitors out.
   const SITE_PASSWORD = "ASDasd123!@#";
   const UNLOCK_KEY = "kg_site_unlocked";
+  const LOCKED_PAGES = ['timetable','study','tasks'];
 
   function unlockPage(name){
     const input = document.getElementById(name + '-pw');
     const err = document.getElementById(name + '-pw-error');
     if(input.value === SITE_PASSWORD){
       sessionStorage.setItem(UNLOCK_KEY, "1");
-      document.getElementById(name + '-lock').style.display = 'none';
-      document.getElementById(name + '-content').style.display = 'block';
+      LOCKED_PAGES.forEach(p=>{
+        document.getElementById(p + '-lock').style.display = 'none';
+        document.getElementById(p + '-content').style.display = 'block';
+      });
     } else {
       err.textContent = "Incorrect password.";
       input.value = "";
     }
   }
 
-  // if already unlocked this session, skip the gate for both locked pages
+  // if already unlocked this session, skip the gate for all locked pages
   if(sessionStorage.getItem(UNLOCK_KEY) === "1"){
-    ['timetable','tasks'].forEach(name=>{
+    LOCKED_PAGES.forEach(name=>{
       document.getElementById(name + '-lock').style.display = 'none';
       document.getElementById(name + '-content').style.display = 'block';
     });
@@ -1320,6 +1523,262 @@ body { overflow-x: hidden; }
       document.getElementById('panel-' + btn.dataset.mod).classList.add('active');
     });
   });
+
+  // ============================================================
+  // STUDY PLAN PAGE
+  // ============================================================
+
+  // module tag helper
+  function mt(mod, label){ return `<span class="mt ${mod}">${label}</span>`; }
+
+  // ----- weekly study blocks (Mon = index 0) -----
+  // Morning target 07:00–10:00, night target 21:00–00:00.
+  // When a class eats part of the morning block, the lost hours move to the next free gap.
+  const STUDY_WEEK = [
+    { day:'Monday',    am:[['07:00','08:00'],['10:10','12:10']], pm:[['21:00','00:00']],
+      why:'EIOP 08:10–10:00 → 2h moved to 10:10–12:10 (before the 14:10 Systems prac).' },
+    { day:'Tuesday',   am:[['07:00','08:00'],['14:10','16:10']], pm:[['21:00','00:00']],
+      why:'ELRM 08:10, Stats 10:10, Systems 13:10 → 2h moved to 14:10–16:10.' },
+    { day:'Wednesday', am:[['07:00','10:00']], pm:[['21:00','00:00']],
+      why:'No clash — first class is EIOP at 11:10.' },
+    { day:'Thursday',  am:[['07:00','10:00']], pm:[['21:00','00:00']],
+      why:'No clash — first class is Stats at 10:10. ELRM ends 18:00, night block is clear.' },
+    { day:'Friday',    am:[['07:00','10:00']], pm:[],
+      why:'Stats prac at 14:10. Night off — weekend starts Fri 18:00.' },
+    { day:'Saturday',  am:[], pm:[],
+      why:'Rest day. Only study when a test or deadline lands on the weekend.' },
+    { day:'Sunday',    am:[], pm:[['21:00','23:00']],
+      why:'Light 2h prep for the week ahead.' }
+  ];
+
+  function toMin(t){ let [h,m] = t.split(':').map(Number); if(h === 0 && m === 0) h = 24; return h*60 + m; }
+  function blockHrs(blocks){ return blocks.reduce((s,[a,b]) => s + (toMin(b) - toMin(a))/60, 0); }
+  function fmtH(h){ return (Math.round(h*10)/10).toString().replace(/\.0$/,'') + 'h'; }
+  function slotHtml(blocks, cls){
+    if(!blocks.length) return `<span class="slot off">off</span>`;
+    return blocks.map(([a,b]) => `<span class="slot ${cls}">${a}–${b}</span>`).join('');
+  }
+  function weekIndex(date){ return (date.getDay() + 6) % 7; }
+  function isoLocal(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+
+  function renderStudyGrid(){
+    const todayIdx = weekIndex(new Date());
+    let total = 0;
+    let html = '<thead><tr><th style="width:110px;">Day</th><th>Morning block</th><th>Night block</th><th>Why it\'s split this way</th><th style="width:60px;">Total</th></tr></thead><tbody>';
+    STUDY_WEEK.forEach((d,i)=>{
+      const h = blockHrs(d.am) + blockHrs(d.pm);
+      total += h;
+      html += `<tr class="${i === todayIdx ? 'today' : ''}">
+        <td class="dayname">${d.day}</td>
+        <td>${slotHtml(d.am,'am')}</td>
+        <td>${slotHtml(d.pm,'pm')}</td>
+        <td class="why">${d.why}</td>
+        <td class="tot">${fmtH(h)}</td></tr>`;
+    });
+    html += '</tbody>';
+    document.getElementById('study-grid').innerHTML = html;
+    document.getElementById('study-weektotal').innerHTML = `weekly study capacity: <b>${fmtH(total)}</b>`;
+  }
+
+  // ----- time budget per task -----
+  const STUDY_LOG_KEY = "kg_study_log";
+  const BUDGET = [
+    { id:'a2',    mod:'all',  label:'A2',   name:'Assignment 2 (Jay)',                 due:'2026-10-04', target:6,  note:'Blackboard by midnight · 2 attempts, last one counts · no late submissions.' },
+    { id:'elrm3', mod:'elrm', label:'ELRM', name:'ELRM Test 3 — Units 1–5',            due:'2026-10-06', target:8,  note:'Cumulative. Skip if you already wrote Tests 1 & 2.' },
+    { id:'eiop3', mod:'eiop', label:'EIOP', name:'EIOP Test 3 — Units 1–9',            due:'2026-10-07', target:8,  note:'Cumulative. Skip if you already wrote Tests 1 & 2.' },
+    { id:'bcis2', mod:'bcis', label:'BCIS', name:'BCIS Module Test 2 — all chapters',  due:'2026-10-12', target:14, note:'Ch 1, 2, 5, 8–11, 13, 14 + virtualisation notes. Lab B3.' },
+    { id:'ebcs3', mod:'ebcs', label:'EBCS', name:'EBCS Test 3 — Ch 7–11 & 14',         due:'2026-10-17', target:20, note:'09:00–12:00, EXR6. Practice problems beat re-reading.' },
+    { id:'xeiop', mod:'eiop', label:'EIOP', name:'EIOP exam revision',                 due:'2026-10-26', target:10, note:'Units 1–9. Move the due date once you have the exam timetable.' },
+    { id:'xelrm', mod:'elrm', label:'ELRM', name:'ELRM exam revision',                 due:'2026-10-26', target:10, note:'Units 1–7 incl. dispute resolution & industrial action.' },
+    { id:'xbcis', mod:'bcis', label:'BCIS', name:'BCIS exam revision',                 due:'2026-10-26', target:12, note:'Extend cram sheets to every chapter.' },
+    { id:'xebcs', mod:'ebcs', label:'EBCS', name:'EBCS exam revision',                 due:'2026-10-26', target:14, note:'Full past papers under time pressure.' }
+  ];
+
+  function loadStudyLog(){
+    try { return JSON.parse(localStorage.getItem(STUDY_LOG_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveStudyLog(log){
+    try { localStorage.setItem(STUDY_LOG_KEY, JSON.stringify(log)); } catch(e){}
+  }
+  function logHours(id, delta){
+    const log = loadStudyLog();
+    log[id] = Math.max(0, Math.round(((log[id] || 0) + delta) * 2) / 2);
+    saveStudyLog(log);
+    renderBudget();
+  }
+  function resetBudget(){
+    if(confirm('Reset all logged study hours?')){ saveStudyLog({}); renderBudget(); }
+  }
+
+  function renderBudget(){
+    const log = loadStudyLog();
+    const now = new Date(); now.setHours(0,0,0,0);
+    let totalTarget = 0, totalDone = 0;
+    const html = BUDGET.map(b=>{
+      const done = log[b.id] || 0;
+      const left = Math.max(0, b.target - done);
+      const pct = Math.min(100, (done / b.target) * 100);
+      totalTarget += b.target; totalDone += Math.min(done, b.target);
+      const [y,m,d] = b.due.split('-').map(Number);
+      const dueDate = new Date(y, m-1, d);
+      const daysLeft = Math.round((dueDate - now) / 86400000);
+      const dueStr = dueDate.toLocaleDateString('en-ZA', { weekday:'short', day:'numeric', month:'short' });
+
+      let pace, paceCls;
+      if(left === 0){ pace = '✓ target hit — keep it warm with short recaps'; paceCls = 'ok'; }
+      else if(daysLeft < 0){ pace = 'deadline passed'; paceCls = 'gone'; }
+      else if(daysLeft === 0){ pace = `due today · ${fmtH(left)} still planned`; paceCls = 'hot'; }
+      else {
+        const perDay = left / daysLeft;
+        pace = `${fmtH(left)} left · ${daysLeft} day${daysLeft === 1 ? '' : 's'} · ≈ ${fmtH(perDay)}/day`;
+        paceCls = perDay > 4 ? 'hot' : '';
+      }
+
+      return `<div class="bud ${left === 0 ? 'complete' : ''}">
+        <div class="bud-top">
+          <div>
+            <div class="bud-name">${mt(b.mod, b.label)} ${b.name}</div>
+            <div class="bud-meta">due ${dueStr} · ${b.note}</div>
+          </div>
+          <div class="bud-hours">${fmtH(done)} / ${fmtH(b.target)}</div>
+        </div>
+        <div class="bar"><i style="width:${pct}%"></i></div>
+        <div class="bud-foot">
+          <span class="pace ${paceCls}">${pace}</span>
+          <span class="bud-btns">
+            <button onclick="logHours('${b.id}',-0.5)">−0.5h</button>
+            <button onclick="logHours('${b.id}',0.5)">+0.5h</button>
+            <button onclick="logHours('${b.id}',1)">+1h</button>
+          </span>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('budget-list').innerHTML = html;
+    document.getElementById('budget-sum').innerHTML =
+      `<span>total logged: <b>${fmtH(totalDone)}</b> of <b>${fmtH(totalTarget)}</b> planned</span>
+       <button class="reset-btn" onclick="resetBudget()">reset log</button>`;
+  }
+
+  // ----- October day-by-day plan -----
+  // am/pm = focus text. amT/pmT override the default block times for that day.
+  const OCT_PLAN = [
+    { d:'2026-10-01', flag:'Recess', am:`${mt('all','A2')} Re-read brief, outline every section, start drafting`, pm:`${mt('elrm','ELRM')} Units 1–2 recap · list weak topics` },
+    { d:'2026-10-02', flag:'Recess', am:`${mt('all','A2')} Finish the full draft`, pm:'' },
+    { d:'2026-10-03', flag:'Weekend exception', amT:'10:00–12:00', am:`${mt('all','A2')} Polish + <b>submit attempt 1</b>`, pm:'' },
+    { d:'2026-10-04', flag:'A2 due 23:59', test:true, am:'', pm:`${mt('elrm','ELRM')} Units 3–5 · one summary page each` },
+    { d:'2026-10-05', am:`${mt('elrm','ELRM')} Practice questions + definitions self-test`, pm:`${mt('elrm','ELRM')} Full Units 1–5 recall run · ${mt('eiop','EIOP')} skim Units 1–3` },
+    { d:'2026-10-06', flag:'ELRM Test 3 · 08:10', test:true, am:`07:00 quick ${mt('elrm','ELRM')} glance · afternoon ${mt('eiop','EIOP')} Units 1–5`, pm:`${mt('eiop','EIOP')} Units 6–9 + self-quiz` },
+    { d:'2026-10-07', flag:'EIOP Test 3 · 11:00', test:true, am:`${mt('eiop','EIOP')} Final recap of key theories`, pm:`${mt('bcis','BCIS')} Ch 1, 2, 5 (re-read cram sheets)` },
+    { d:'2026-10-08', am:`${mt('bcis','BCIS')} Ch 8, 9, 11 — networks & OS`, pm:`${mt('bcis','BCIS')} Ch 13, 14, 10 — make cram sheets` },
+    { d:'2026-10-09', am:`${mt('bcis','BCIS')} Virtualisation notes + practice questions`, pm:'' },
+    { d:'2026-10-10', am:'', pm:'' },
+    { d:'2026-10-11', am:'', pm:`${mt('bcis','BCIS')} Full recap from cram sheets only · early night` },
+    { d:'2026-10-12', flag:'BCIS Test 2 · Lab B3', test:true, am:`${mt('bcis','BCIS')} Final recap — explain each chapter out loud`, pm:`${mt('ebcs','EBCS')} Ch 7 — confidence intervals (redo Prac 1)` },
+    { d:'2026-10-13', am:`${mt('ebcs','EBCS')} Ch 8 — sample size + one-population tests`, pm:`${mt('ebcs','EBCS')} Ch 9 — two-population tests (redo Pracs 3 & 4)` },
+    { d:'2026-10-14', am:`${mt('ebcs','EBCS')} Ch 10`, pm:`${mt('ebcs','EBCS')} Ch 11 — chi-square tests` },
+    { d:'2026-10-15', am:`${mt('ebcs','EBCS')} Ch 14 — sign test & Wilcoxon`, pm:`${mt('ebcs','EBCS')} Build formula + "which test when" sheet` },
+    { d:'2026-10-16', am:`${mt('ebcs','EBCS')} <b>Full timed mock</b> (Tut 3 + mixed) · mark & fix`, pm:'' },
+    { d:'2026-10-17', flag:'EBCS Test 3 · 09:00 EXR6', test:true, amT:'—', am:'Formula sheet glance before you go · calculator + student card', pm:'' },
+    { d:'2026-10-18', am:'', pm:'Download exam timetable · put all 4 exam dates in your planner' },
+    { d:'2026-10-19', flag:'BCIS aegrotat (if needed)', am:'Chapter checklist per module · plan exam order', pm:`${mt('eiop','EIOP')} Exam pass 1 — Units 1–5` },
+    { d:'2026-10-20', am:`${mt('eiop','EIOP')} Units 6–9`, pm:`${mt('elrm','ELRM')} Units 1–4` },
+    { d:'2026-10-21', am:`${mt('elrm','ELRM')} Units 5–7`, pm:`${mt('bcis','BCIS')} Ch 1–9` },
+    { d:'2026-10-22', am:`${mt('bcis','BCIS')} Ch 10–14 + virtualisation`, pm:`${mt('ebcs','EBCS')} Ch 7–9` },
+    { d:'2026-10-23', flag:'Predicate day', test:true, am:`Check predicates on Blackboard · ${mt('ebcs','EBCS')} Ch 10–14`, pm:'' },
+    { d:'2026-10-24', am:'', pm:'' },
+    { d:'2026-10-25', am:'', pm:'First exam module — light look, 2h max' },
+    { d:'2026-10-26', flag:'Exams begin', test:true, am:'Next exam: past paper + fix weak spots', pm:'Next exam: active recall from summary pages' },
+    { d:'2026-10-27', am:'Next exam: past paper', pm:'Next exam: active recall · 70/30 split if 3+ days gap' },
+    { d:'2026-10-28', am:'Next exam: past paper', pm:'Next exam: active recall' },
+    { d:'2026-10-29', am:'Next exam: past paper', pm:'Next exam: active recall' },
+    { d:'2026-10-30', am:'Next exam: past paper', pm:'' },
+    { d:'2026-10-31', am:'', pm:'' }
+  ];
+
+  function blocksFor(entry){
+    const [y,m,d] = entry.d.split('-').map(Number);
+    const wk = STUDY_WEEK[weekIndex(new Date(y, m-1, d))];
+    const amT = entry.amT !== undefined ? entry.amT : wk.am.map(([a,b])=>`${a}–${b}`).join(' + ');
+    const pmT = entry.pmT !== undefined ? entry.pmT : wk.pm.map(([a,b])=>`${a}–${b}`).join(' + ');
+    return { amT, pmT, wk };
+  }
+  function entryHours(entry){
+    const { wk } = blocksFor(entry);
+    let h = 0;
+    if(entry.am){ h += entry.amT && entry.amT !== '—' ? blockHrs([entry.amT.split('–')]) : (entry.amT === '—' ? 0 : blockHrs(wk.am)); }
+    if(entry.pm){ h += blockHrs(wk.pm.length ? wk.pm : [['21:00','23:00']]); }
+    return h;
+  }
+
+  function renderOctPlan(){
+    const today = isoLocal(new Date());
+    let html = '<thead><tr><th style="width:120px;">Date</th><th>Morning</th><th>Night</th><th style="width:55px;">Hrs</th></tr></thead><tbody>';
+    OCT_PLAN.forEach(e=>{
+      const [y,m,d] = e.d.split('-').map(Number);
+      const date = new Date(y, m-1, d);
+      const label = date.toLocaleDateString('en-ZA', { weekday:'short', day:'numeric', month:'short' });
+      const { amT, pmT } = blocksFor(e);
+      const cls = [e.d === today ? 'today' : '', e.test ? 'test' : '', e.d < today ? 'past' : ''].join(' ');
+      const amCell = e.am ? `<span class="optime">${amT || 'flexible'}</span>${e.am}` : `<span class="rest">rest</span>`;
+      const pmCell = e.pm ? `<span class="optime">${pmT || '21:00–23:00'}</span>${e.pm}` : `<span class="rest">rest</span>`;
+      const hrs = entryHours(e);
+      html += `<tr class="${cls}">
+        <td><span class="opdate">${label}</span>${e.flag ? `<span class="opflag">${e.flag}</span>` : ''}</td>
+        <td>${amCell}</td><td>${pmCell}</td>
+        <td class="tot">${hrs ? fmtH(hrs) : '—'}</td></tr>`;
+    });
+    html += '</tbody>';
+    document.getElementById('oct-plan').innerHTML = html;
+  }
+
+  // ----- today panel -----
+  function renderStudyToday(){
+    const now = new Date();
+    const iso = isoLocal(now);
+    const wk = STUDY_WEEK[weekIndex(now)];
+    const entry = OCT_PLAN.find(e => e.d === iso);
+    const nowMin = now.getHours()*60 + now.getMinutes();
+    const isLive = blocks => blocks.some(([a,b]) => nowMin >= toMin(a) && nowMin < toMin(b));
+    const dateStr = now.toLocaleDateString('en-ZA', { weekday:'long', day:'numeric', month:'long' });
+
+    let amFocus, pmFocus, amT, pmT, flag = '';
+    if(entry){
+      const b = blocksFor(entry);
+      amT = b.amT; pmT = b.pmT; flag = entry.flag || '';
+      amFocus = entry.am || '<span class="rest">rest — no morning block</span>';
+      pmFocus = entry.pm || '<span class="rest">rest — no night block</span>';
+    } else {
+      amT = wk.am.map(([a,b])=>`${a}–${b}`).join(' + ');
+      pmT = wk.pm.map(([a,b])=>`${a}–${b}`).join(' + ');
+      amFocus = '<span class="rest">No day plan for this date — the plan covers October 2026. Use your weekly blocks.</span>';
+      pmFocus = '<span class="rest">—</span>';
+    }
+    const amLive = entry && entry.am && !entry.amT && isLive(wk.am);
+    const pmLive = entry && entry.pm && isLive(wk.pm);
+
+    document.getElementById('study-today').innerHTML = `
+      <div class="now-head">
+        <span class="now-date">${dateStr}</span>
+        ${flag ? `<span class="now-flag">⚑ ${flag}</span>` : ''}
+      </div>
+      <div class="now-grid">
+        <div class="now-card ${amLive ? 'live' : ''}">
+          <div class="now-label"><span>☀ morning · ${amT || 'off'}</span>${amLive ? '<span class="live-badge">● NOW</span>' : ''}</div>
+          <div class="now-focus">${amFocus}</div>
+        </div>
+        <div class="now-card ${pmLive ? 'live' : ''}">
+          <div class="now-label"><span>☾ night · ${pmT || 'off'}</span>${pmLive ? '<span class="live-badge">● NOW</span>' : ''}</div>
+          <div class="now-focus">${pmFocus}</div>
+        </div>
+      </div>`;
+  }
+
+  renderStudyGrid();
+  renderBudget();
+  renderOctPlan();
+  renderStudyToday();
+  setInterval(renderStudyToday, 60000);
 </script>
 </body>
 </html>
